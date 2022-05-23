@@ -16,8 +16,11 @@ The library supports operating partial derivatibes of the elementary functions
         1. Rational functions 
         2. Constant function 
         3. Polynomial expressions
+2. Perform Gradient vector 
 
 ## Non-functional requirements
 1. Correctness
-2. ISO C++17* Compliance 
+2. ISO C++20 Compliance 
 3. Performance 
+    1. V1. Sequential Approach (using efficient Containers) 
+    2. V2. CUDA support
