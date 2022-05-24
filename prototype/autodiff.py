@@ -68,7 +68,7 @@ def gradients(variable:Symbol) -> Dict[Symbol, float]:
 
         for child, local_gradient in variable.local_gradients:
             value_of_path_to_child = path_value * local_gradient
-            _gradients[child] = _gradients[child] + value_of_path_to_child
+            _gradients[child] += value_of_path_to_child
             _compute_gradients(child, value_of_path_to_child)
 
     _compute_gradients(variable, path_value = 1)
@@ -77,12 +77,14 @@ def gradients(variable:Symbol) -> Dict[Symbol, float]:
 
 if __name__ == '__main__':
     
-    a = Symbol(4)
-    b = Symbol(3)
-    c = a + b # = 4 + 3 = 7
-    d = a*c # = 4 * 7 = 28
+    def f(a: Symbol, b: Symbol) -> Symbol:
+        return (a / b - a) * (b / a + a + b) * (a - b)
 
-    df = gradients(d)
+    a = Symbol(230.3)
+    b = Symbol(33.2)
+    y = f(a, b)
 
-    print(f"d value: {d.value}")
+    df = gradients(y)
+
+    print(f"d value: {y.value}")
     print(f"df/da: {df[a]}", f"df/db: {df[b]}", sep='\n')

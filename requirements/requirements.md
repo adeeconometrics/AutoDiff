@@ -16,7 +16,9 @@ The library supports operating partial derivatibes of the elementary functions
         1. Rational functions 
         2. Constant function 
         3. Polynomial expressions
-2. Perform Gradient vector 
+3. Partial Differentiation
+4. Higher order Partial Differentiation 
+5. Find the Gradient vector
 
 ## Non-functional requirements
 1. Correctness
