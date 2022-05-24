@@ -7,31 +7,69 @@
 #include <set>
 
 namespace ad{
-    
-    auto Symbol::backward(void) -> void {
-        std::list<Symbol> _topology {};
-        std::set<Symbol> _visited {};
 
-        auto _build_topology(const Symbol& _node) -> void {
-            if (!std::find(_visited.cbegin(), _visited.cend(), _node)){
-                _visited.push_back(_node);
-                for(const auto child: _node.m_prev){
-                    _build_topology(child);
-                }
 
-                _topology.push_back(_node);
-            }
-        }
+  template<typename T>
+  requires SymbolLike<T>
+  auto Symbol::operator+(const &rhs) const noexcept -> Symbol{
+    return *this + rhs;
+  }
 
-        _build_topology(*this);
+  template <typename T>
+  requires SymbolLike<T>
+  auto Symbol::operator-(const &rhs) const noexcept -> Symbol {
+    return *this - rhs;
+  }
 
-        this -> m_grad = 1.0;
-        std::reverse(_topology.cbegin(), _topology.cend());
-        for(const auto v: _topology){
-            v.m_backward();
-        }
+  template <typename T>
+  requires SymbolLike<T>
+  auto Symbol::operator*(const &rhs) const noexcept -> Symbol {
+    return (*this) * rhs;
+  }
+
+  template <typename T>
+  requires SymbolLike<T>
+  auto Symbol::operator/(const &rhs) const noexcept -> Symbol {
+    return *(this)/rhs;
+  }
+
+  const auto Symbol::value(void) const noexcept -> float {
+    return m_val;
+  }
+
+  const auto Symbol::gradient(void) const noexcept -> float {
+    return m_grad;
+  }
+
+  auto Symbol::backward(void) -> void {
+    std::list<Symbol> _topology{};
+    std::set<Symbol> _visited{};
+
+    build_topology(_topology, _visited, *this);
+
+    this->m_grad = 1.0;
+    std::reverse(_topology.begin(), _topology.end());
+    for (const auto v : _topology) {
+      v.m_backward();
+    }
     }
 
+    auto Symbol::build_topology(std::list<Symbol> &_topology,
+                                std::set<Symbol> &_visited,
+                                Symbol &_node) const noexcept -> void {
+      if (!std::any_of(_visited.cbegin(), _visited.cend(), [&_node](const auto i) -> bool {return i == _node;})) {
+        _visited.insert(_node);
+        for (auto child : _node.m_prev) {
+          build_topology(_topology, _visited, child);
+        }
+
+        _topology.push_back(_node);
+      }
+    }
+    
+    // auto swap(Symbol& lhs, Symbol& rhs) -> void {
+    //   std::swap(lhs, rhs); 
+    // }
 
     template <typename T, typename U = T>
     requires SymbolLike<T> && SymbolLike<U>
@@ -39,12 +77,11 @@ namespace ad{
         auto _rhs =  std::is_same_v<U, Symbol> ? rhs : Symbol(rhs);
         auto _node = Symbol(lhs.m_value + rhs.m_value, {lhs, rhs});
 
-        auto _backward(void) -> void {
-            lhs.m_grad += node.m_grad;
-            rhs.m_grad += node.m_grad;
-        }
+        _node.m_backward = [&lhs, &_rhs, &_node]() -> void {
+            lhs.m_grad += _node.m_grad;
+            _rhs.m_grad += _node.m_grad;
+        };
 
-        _node.m_backward = _backward;
         return _node;
     }
 
@@ -54,12 +91,11 @@ namespace ad{
       auto _rhs = std::is_same_v<U, Symbol> ? rhs : Symbol(rhs);
       auto _node = Symbol(lhs.m_value + rhs.m_value, {lhs, rhs});
 
-      auto _backward(void)->void {
-        lhs.m_grad -= node.m_grad;
-        rhs.m_grad -= node.m_grad;
-      }
+      _node.m_backward = [&lhs, &_rhs, &_node]() ->void {
+        lhs.m_grad -= _node.m_grad;
+        _rhs.m_grad -= _node.m_grad;
+      };
 
-      _node.m_backward = _backward;
       return _node;
     }
 
@@ -75,12 +111,11 @@ namespace ad{
       auto _rhs = std::is_same_v<U, Symbol> ? rhs : Symbol(rhs);
       auto _node = Symbol(lhs.m_value + rhs.m_value, {lhs, rhs});
 
-      auto _backward(void)->void {
-        lhs.m_grad += rhs.m_grad * _node.m_grad;
-        rhs.m_grad += lhs.m_grad * _node.m_grad;
-      }
+      _node.m_backward = [&lhs, &_rhs, &_node]() ->void {
+        lhs.m_grad += _rhs.m_grad * _node.m_grad;
+        _rhs.m_grad += lhs.m_grad * _node.m_grad;
+      };
 
-      _node.m_backward = _backward;
       return _node;
     }
 
@@ -91,12 +126,25 @@ namespace ad{
         using std::pow;
         auto _node = Symbol(pow(lhs.m_value, rhs), {lhs});
 
-        auto _backward(void) -> void {
-            lhs.m_grad += rhs *pow(lhs.m_grad, rhs - 1) * _node.grad;
-        } 
+        _node.m_backward = [&lhs, &rhs, &_node]() -> void {
+          lhs.m_grad += rhs * pow(lhs.m_grad, rhs - 1) * _node.m_grad;
+        }; 
 
-        _node._backward = _backward;
         return _node;
     }
-    
+    auto operator<(const Symbol &lhs, const Symbol &rhs) -> bool {
+      return lhs.value() < rhs.value();
+    }
+
+    auto operator>(const Symbol &lhs, const Symbol &rhs) -> bool {
+      return lhs.value() > rhs.value();
+    }
+
+    auto operator==(const Symbol &lhs, const Symbol &rhs) -> bool {
+      return lhs.value() == rhs.value();
+    }
+
+    auto operator!=(const Symbol &lhs, const Symbol &rhs) -> bool {
+      return lhs.value() != rhs.value();
+    }
 }

@@ -21,14 +21,11 @@
 
 namespace ad {
 
-template <typename T>
-concept SymbolLike =
-    requires std::is_arithmetic_v<T> || std::is_base_of_v<Symbol>;
 
 class Symbol {
 private:
   
-  std::functional<void(void)> m_backward;
+  std::function<void(void)> m_backward;
   std::list<Symbol> m_children{};
   std::set<Symbol> m_prev;
 
@@ -36,22 +33,52 @@ private:
   float m_grad{};
 
 public:
-  Symbol(float _value) : m_val(_val) {}
+  Symbol(float _value) : m_val(_value) {}
   Symbol(float _value, const std::list<Symbol> &_children): 
         m_children(_children), 
         m_prev(_children.cbegin(), _children.cend()),
-        m_val(_val) {}
+        m_val(_value) {}
 
   Symbol() = default;
   ~Symbol() = default;
 
+
+  template<typename T>
+  requires SymbolLike<T>
+  auto operator+(const T&rhs) const noexcept -> Symbol; 
+
+  template<typename T>
+  requires SymbolLike<T>
+  auto operator-(const T&rhs) const noexcept -> Symbol; 
+
+
+  template<typename T>
+  requires SymbolLike<T>
+  auto operator/(const T&rhs) const noexcept -> Symbol;
+
+  template <typename T>
+  requires SymbolLike<T>
+  auto operator*(const T &rhs) const noexcept -> Symbol;
+
+  const auto value(void) const noexcept -> float;
+  const auto gradient(void) const noexcept -> float; 
+
 private:
   auto backward(void) -> void;
-}
+  auto build_topology(std::list<Symbol>& _topology,
+    std::set<Symbol>& _visited,
+    Symbol &_node) const noexcept -> void;
+};
+
+template <typename T>
+concept SymbolLike = std::is_arithmetic_v<T> || std::is_base_of_v<Symbol, T>;
+
+// auto swap(Symbol& lhs, Symbol& rhs) -> void;
 
 template <typename T, typename U = T>
 requires SymbolLike<T> && SymbolLike<U>
 auto operator+(const T& lhs, const U &rhs) -> Symbol;
+
 
 template <typename T, typename U = T>
 requires SymbolLike<T> && SymbolLike<U>
@@ -68,6 +95,11 @@ auto operator/(const T& lhs, const U &rhs) -> Symbol;
 template <typename T, typename U = T>
 requires SymbolLike<T> && SymbolLike<U>
 auto pow(const T &lhs, const U &rhs) -> Symbol;
+
+auto operator<(const Symbol& lhs, const Symbol& rhs) -> bool;
+auto operator>(const Symbol &lhs, const Symbol &rhs) -> bool;
+auto operator==(const Symbol &lhs, const Symbol &rhs) -> bool;
+auto operator!=(const Symbol &lhs, const Symbol &rhs) -> bool;
 
 // template <typename T, typename std::enable_if_v<std::is_arithmetic_v<T> ||
 //                                                 std::is_same_v<T, Symbol>>>
