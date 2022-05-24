@@ -18,16 +18,12 @@ list
 set
 -
 
-/mnt/c/Users/amianadave/Documents/AutoDiff/src/Main.cpp
-Symbol.h
-/mnt/c/Users/amianadave/Documents/AutoDiff/src/Symbol.h
-iostream
--
-
 /mnt/c/Users/amianadave/Documents/AutoDiff/src/Symbol.cpp
 Symbol.h
 /mnt/c/Users/amianadave/Documents/AutoDiff/src/Symbol.h
 type_traits
+-
+functional
 -
 algorithm
 -

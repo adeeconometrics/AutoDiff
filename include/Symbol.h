@@ -42,38 +42,26 @@ public:
   Symbol() = default;
   ~Symbol() = default;
 
+  // auto operator=(const Symbol& lhs) -> Symbol& = default;
+  // auto operator=(Symbol&& rhs) -> Symbol& = default;
 
-  template<typename T>
-  requires SymbolLike<T>
-  auto operator+(const T&rhs) const noexcept -> Symbol; 
-
-  template<typename T>
-  requires SymbolLike<T>
-  auto operator-(const T&rhs) const noexcept -> Symbol; 
-
-
-  template<typename T>
-  requires SymbolLike<T>
-  auto operator/(const T&rhs) const noexcept -> Symbol;
-
-  template <typename T>
-  requires SymbolLike<T>
-  auto operator*(const T &rhs) const noexcept -> Symbol;
+  auto operator+(const Symbol& rhs) const noexcept -> Symbol;
+  auto operator-(const Symbol &rhs) const noexcept -> Symbol;
+  auto operator/(const Symbol &rhs) const noexcept -> Symbol;
+  auto operator*(const Symbol &rhs) const noexcept -> Symbol;
 
   const auto value(void) const noexcept -> float;
   const auto gradient(void) const noexcept -> float; 
 
 private:
   auto backward(void) -> void;
-  auto build_topology(std::list<Symbol>& _topology,
-    std::set<Symbol>& _visited,
-    Symbol &_node) const noexcept -> void;
+  // auto build_topology(std::list<Symbol>& _topology,
+  //   std::set<Symbol>& _visited,
+  //   Symbol &_node) const noexcept -> void;
 };
 
 template <typename T>
 concept SymbolLike = std::is_arithmetic_v<T> || std::is_base_of_v<Symbol, T>;
-
-// auto swap(Symbol& lhs, Symbol& rhs) -> void;
 
 template <typename T, typename U = T>
 requires SymbolLike<T> && SymbolLike<U>
