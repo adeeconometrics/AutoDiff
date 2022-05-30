@@ -58,28 +58,22 @@ def get_gradients(variable):
     gradients = defaultdict(lambda: 0)
 
     def compute_gradients(variable, path_value):
-        # print(type(variable.local_gradients))
         print(f'outer: {path_value}')
 
         for child_variable, local_gradient in variable.local_gradients:
-            # "Multiply the edges of a path":
             value_of_path_to_child = path_value * local_gradient
-            # "Add together the different paths":
-            # print(gradients[child_variable])
 
             print(f'\t local_gradient {local_gradient}', 
                     f'\t path value: {path_value}', 
                     f'\t inside before {gradients[child_variable]}',
                     sep = '\n')
-                    
+
             gradients[child_variable] += value_of_path_to_child
             print(f'\t inside after {gradients[child_variable]}')
 
-            # recurse through graph:
             compute_gradients(child_variable, value_of_path_to_child)
     
     compute_gradients(variable, path_value=1)
-    # (path_value=1 is from `variable` differentiated w.r.t. itself)
     return gradients
 
 

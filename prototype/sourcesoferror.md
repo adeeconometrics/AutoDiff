@@ -4,4 +4,5 @@ Possible sources of error
     1. Find alternative data structure to represent the tape
         -- unordered map is not the answer
         -- list seem to be a promising substitute
+        -- std::map is good enough *
 3. Implicit compiler optimization which overrule operator ordering 
