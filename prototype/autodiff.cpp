@@ -55,7 +55,6 @@ auto operator*(const Symbol &lhs, const Symbol &rhs) -> Symbol {
 
 auto operator/(const Symbol &lhs, const Symbol &rhs) -> Symbol {
   Symbol inverse{{{rhs, -1.0 / std::pow(rhs.value(), 2)}}, 1.0 / rhs.value()};
-
   return lhs * inverse;
 }
 
@@ -69,98 +68,112 @@ auto pow(const Symbol &base, const Symbol &exponent) -> Symbol {
           std::pow(base.value(), exponent.value())};
 }
 
-auto exp(const Symbol &rhs) -> Symbol {
+auto exp(const Symbol &rhs) noexcept -> Symbol {
   double value = std::exp(rhs.value());
   double df_rhs = value;
 
   return {{{rhs, df_rhs}}, value};
 }
 
-auto ln(const Symbol &rhs) -> Symbol {
+auto ln(const Symbol &rhs) noexcept -> Symbol {
   double value = std::log(rhs.value());
   double df_rhs = 1.0 / rhs.value();
 
   return {{{rhs, df_rhs}}, value};
 }
 
-auto log(const Symbol &argument, const Symbol &base) -> Symbol {
-  double x{std::log(argument.value())}, y{std::log(base.value())};
-  double value = x/y;
-  // double df_argument = 1.0/ y * ;
-  double df_base;
-}
+// auto log(const Symbol &argument, const Symbol &base) -> Symbol {
+//   double x{std::log(argument.value())}, y{std::log(base.value())};
+//   double value = x/y;
+//   // double df_argument = 1.0/ y * ;
+//   double df_base;
+// }
 
-auto sin(const Symbol &rhs) -> Symbol {
+auto sin(const Symbol &rhs) noexcept -> Symbol {
   double value = std::sin(rhs.value());
   double df_rhs = std::cos(rhs.value());
   return {{{rhs, df_rhs}}, value};
 }
 
-auto cos(const Symbol &rhs) -> Symbol {
+auto cos(const Symbol &rhs) noexcept -> Symbol {
   double value = std::cos(rhs.value());
   double df_rhs = -std::sin(rhs.value());
   return {{{rhs, df_rhs}}, value};
 }
 
-auto tan(const Symbol &rhs) -> Symbol {
+auto tan(const Symbol &rhs) noexcept -> Symbol {
   double value = std::tan(rhs.value());
   double df_rhs = 1.0 / std::pow(std::cos(rhs.value()), 2);
   return {{{rhs, df_rhs}}, value};
 }
 
-auto cot(const Symbol &rhs) -> Symbol {
+auto cot(const Symbol &rhs) noexcept -> Symbol {
   double value = 1.0 / std::tan(rhs.value());
   double df_rhs = -1.0 / std::pow(std::sin(rhs.value()), 2);
   return {{{rhs, df_rhs}}, value};
 }
 
-auto sec(const Symbol &rhs) -> Symbol {
+auto sec(const Symbol &rhs) noexcept -> Symbol {
   double value = 1.0 / std::cos(rhs.value());
   double df_rhs = value * std::tan(rhs.value());
   return {{{rhs, df_rhs}}, value};
 }
 
-auto csc(const Symbol &rhs) -> Symbol {
+auto csc(const Symbol &rhs) noexcept -> Symbol {
   double value = 1.0 / std::sin(rhs.value());
   double df_rhs = value * (-1.0 / std::tan(rhs.value()));
   return {{{rhs, df_rhs}}, value};
 }
 
-auto sinh(const Symbol &rhs) -> Symbol {
+auto sinh(const Symbol &rhs) noexcept -> Symbol {
   double value = std::sinh(rhs.value());
   double df_rhs = std::cosh(rhs.value());
   return {{{rhs, df_rhs}}, value};
 }
 
-auto cosh(const Symbol &rhs) -> Symbol {
+auto cosh(const Symbol &rhs) noexcept -> Symbol {
   double value = std::cosh(rhs.value());
   double df_rhs = std::sinh(rhs.value());
   return {{{rhs, df_rhs}}, value};
 }
 
-auto tanh(const Symbol &rhs) -> Symbol {
+auto tanh(const Symbol &rhs) noexcept -> Symbol {
   double value = std::tanh(rhs.value());
   double df_rhs = 1.0 / std::pow(std::cosh(rhs.value()), 2); // cont .. 
   return {{{rhs, df_rhs}}, value};
 }
 
-auto coth(const Symbol &rhs) -> Symbol {
+auto coth(const Symbol &rhs) noexcept -> Symbol {
   double value = 1.0 / std::tanh(rhs.value());
   double df_rhs = -1.0 / std::pow(std::sinh(rhs.value()), 2);
   return {{{rhs, df_rhs}}, value};
 }
 
-auto sech(const Symbol &rhs) -> Symbol {
+auto sech(const Symbol &rhs) noexcept -> Symbol {
   double value = 1.0 / std::cosh(rhs.value());
-  double df_rhs = value * std::tanh(rhs.value());
+  double df_rhs = -value * std::tanh(rhs.value());
   return {{{rhs, df_rhs}}, value};
 }
 
-auto csch(const Symbol &rhs) -> Symbol {
+auto csch(const Symbol &rhs) noexcept -> Symbol {
   double value = 1.0 / std::sinh(rhs.value());
   double df_rhs = value * (-1.0 / std::tanh(rhs.value()));
   return {{{rhs, df_rhs}}, value};
 }
+
+// auto arcsin(const Symbol& rhs) -> Symbol{};
+// auto arccos(const Symbol &rhs) -> Symbol{};
+// auto arctan(const Symbol &rhs) -> Symbol{};
+// auto arccot(const Symbol &rhs) -> Symbol{};
+// auto arcsec(const Symbol &rhs) -> Symbol{};
+// auto arccsc(const Symbol &rhs) -> Symbol{};
+
+// auto arcsinh(const Symbol &rhs) -> Symbol{};
+// auto arccosh(const Symbol &rhs) -> Symbol{};
+// auto arctanh(const Symbol &rhs) -> Symbol{};
+// auto arccoth(const Symbol &rhs) -> Symbol{};
+// auto arcsech(const Symbol &rhs) -> Symbol{};
+// auto arccsch(const Symbol &rhs) -> Symbol{};
 
 auto gradient(const Symbol &variable) -> std::map<Symbol, double> {
   std::map<Symbol, double> _gradients{};
@@ -192,9 +205,11 @@ auto main(void) -> int {
   Symbol a{1.45};
   Symbol b{3.15};
 
-  auto y = sec(a) * csc(a*b) * cot(a-b) *pow(a, b);
+  auto y = sech(a) * cosh(a*b) * coth(a-b) *pow(a, b);
   // auto y = sin(a) * cos(a * b) * tan(a - b) * pow(a, b);
   auto df = gradient(y);
+  // auto ddf = gradient(df);
+
 
   std::cout << "d value: " << std::setprecision(20) << y.value() << '\n';
   std::cout << "df/da: " << std::setprecision(20) << df[a] << '\n';

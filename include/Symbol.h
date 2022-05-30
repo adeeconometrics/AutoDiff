@@ -80,41 +80,10 @@ template <typename T, typename U = T>
 requires SymbolLike<T> && SymbolLike<U>
 auto operator/(const T& lhs, const U &rhs) -> Symbol;
 
-template <typename T, typename U = T>
-requires SymbolLike<T> && SymbolLike<U>
-auto pow(const T &lhs, const U &rhs) -> Symbol;
-
 auto operator<(const Symbol& lhs, const Symbol& rhs) -> bool;
 auto operator>(const Symbol &lhs, const Symbol &rhs) -> bool;
 auto operator==(const Symbol &lhs, const Symbol &rhs) -> bool;
 auto operator!=(const Symbol &lhs, const Symbol &rhs) -> bool;
-
-// template <typename T, typename std::enable_if_v<std::is_arithmetic_v<T> ||
-//                                                 std::is_same_v<T, Symbol>>>
-// auto pow(const Symbol &lhs, const T &rhs) -> Symbol;
-
-// template <typename T, typename std::enable_if_v<std::is_arithmetic_v<T> ||
-//                                                 std::is_same_v<T, Symbol>>>
-// auto exp(const T& rhs) -> Symbol;
-
-// template <typename T, typename std::enable_if_v<std::is_arithmetic_v<T> ||
-//                                                 std::is_same_v<T, Symbol>>>
-// auto log10(const T &rhs) -> Symbol;
-
-// template <typename T, typename std::enable_if_v<std::is_arithmetic_v<T> ||
-//                                                 std::is_same_v<T, Symbol>>>
-// auto log2(const T &rhs) -> Symbol;
-
-// template <typename T, typename std::enable_if_v<std::is_arithmetic_v<T> ||
-//                                                 std::is_same_v<T, Symbol>>>
-// auto ln(const T &rhs) -> Symbol;
-
-// auto sin(const Symbol &rhs)->Symbol;
-// auto cos(const Symbol &rhs)->Symbol;
-// auto tan(const Symbol &rhs)->Symbol;
-// auto sinh(const Symbol &rhs)->Symbol;
-// auto cosh(const Symbol &rhs)->Symbol;
-// auto tanh(const Symbol &rhs)->Symbol;
 
 } // namespace ad
 
