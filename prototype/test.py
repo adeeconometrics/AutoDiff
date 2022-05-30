@@ -56,15 +56,25 @@ def get_gradients(variable):
     with respect to child variables.
     """
     gradients = defaultdict(lambda: 0)
-    
+
     def compute_gradients(variable, path_value):
+        # print(type(variable.local_gradients))
+        print(f'outer: {path_value}')
+
         for child_variable, local_gradient in variable.local_gradients:
             # "Multiply the edges of a path":
             value_of_path_to_child = path_value * local_gradient
             # "Add together the different paths":
-            print(gradients[child_variable])
+            # print(gradients[child_variable])
 
+            print(f'\t local_gradient {local_gradient}', 
+                    f'\t path value: {path_value}', 
+                    f'\t inside before {gradients[child_variable]}',
+                    sep = '\n')
+                    
             gradients[child_variable] += value_of_path_to_child
+            print(f'\t inside after {gradients[child_variable]}')
+
             # recurse through graph:
             compute_gradients(child_variable, value_of_path_to_child)
     
@@ -76,17 +86,28 @@ def get_gradients(variable):
 
 if __name__ == '__main__':
 
+
+    # a = Variable(4.0)
+    # b = Variable(3.0)
+    # c = a + b
+    # d = a * c / a
+    # df = get_gradients(d)
+    # print(f'd value: {d.value}')
+    # print(f'df/da : {df[a]}')
+    # print(f'df/db : {df[b]}')
+
     def f(a, b):
         return (a / b - a) * (b / a + a + b) * (a - b)
 
     a = Variable(230.3)
     b = Variable(33.2)
-    y = f(a, b)
+    y = (a / b - a) * (b / a + a + b) * (a - b)
 
     gradients = get_gradients(y)
 
-    print (f'value: {y.value}')
-    # print("The partial derivative of y with respect to a =", gradients[a])
-    # print("The partial derivative of y with respect to b =", gradients[b])
-    for i in gradients.values():
-        print(i)
+    print (f'd value: {y.value}')
+    print("df/da =", gradients[a])
+    print("df/db =", gradients[b])
+
+    # for i in gradients.values():
+    #     print(f'{id(i)}\t{i}')

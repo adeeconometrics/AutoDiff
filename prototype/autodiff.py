@@ -1,17 +1,15 @@
 from __future__  import annotations
 from collections import defaultdict
-from dataclasses import dataclass
 from typing import Dict
 
 """
 This method contains reverse-mode
 """
-@dataclass(init=True,
-            eq=True,
-            frozen=True)
+
 class Symbol: 
-    value:float 
-    local_gradients:tuple = ()
+    def __init__(self, value:float, local_gradients:tuple = ()) -> None:
+        self.value = value 
+        self.local_gradients = local_gradients
 
 
     def __add__(self, other:Symbol) -> Symbol:
@@ -63,13 +61,14 @@ class Symbol:
 
 def gradients(variable:Symbol) -> Dict[Symbol, float]: 
     _gradients:dict = defaultdict(lambda: 0.0)
-    
-    def _compute_gradients(variable:Symbol, path_value:int) -> None:
 
-        for child, local_gradient in variable.local_gradients:
-            value_of_path_to_child = path_value * local_gradient
-            _gradients[child] += value_of_path_to_child
-            _compute_gradients(child, value_of_path_to_child)
+    def _compute_gradients(variable:Symbol, path_value:float) -> None:
+        print(type(variable.local_gradients))
+
+        # for child, local_gradient in variable.local_gradients:
+        #     value_of_path_to_child = path_value * local_gradient
+        #     _gradients[child] += value_of_path_to_child
+        #     _compute_gradients(child, value_of_path_to_child)
 
     _compute_gradients(variable, path_value = 1)
 
@@ -88,3 +87,4 @@ if __name__ == '__main__':
 
     print(f"d value: {y.value}")
     print(f"df/da: {df[a]}", f"df/db: {df[b]}", sep='\n')
+
