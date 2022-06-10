@@ -47,7 +47,7 @@ auto tan(const std::vector<T>& vec) -> std::vector<T> {
 }
 
 template <typename T> 
-auto vector_function(const std::vector<std::function<std::vector<T>(std::vector<T>)>>& fn,
+auto vector_function(const std::vector<VectorFunction<T>>& fn,
 		const std::vector<T>& v) -> std::vector<std::vector<T>> {
 	
 	std::vector<std::vector<T>> results{};
