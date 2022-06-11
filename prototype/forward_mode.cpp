@@ -1,5 +1,6 @@
 #include <cmath>
 #include <functional>
+#include <vector>
 #include <iostream>
 #include <iomanip>
 
@@ -92,6 +93,8 @@ auto csc(const Sym& rhs) noexcept -> Sym{
 	const double df = -value*(1.0f/std::tan(rhs.value()))*rhs.dot();
 	return {value, df};
 }
+
+auto make_jvp() -> std::vector<double>;
 
 };
 

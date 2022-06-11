@@ -36,9 +36,9 @@ class Symbol:
                 (self.dot*other.val - self.val*other.dot)/ pow(other.val, 2))
         return df
 
-    def __pow__(self, other:float) -> Symbol:
+    def __pow__(self, other:Symbol) -> Symbol:
         df = Symbol(self.val**other.val,
-                other*self.val**(other - 1)*self.dot)
+                m.log(self.val)*pow(self.val, other.val)*other.dot)
         return df
 
 def sin(x:Symbol) -> Symbol:
