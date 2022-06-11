@@ -94,6 +94,42 @@ auto csc(const Sym& rhs) noexcept -> Sym{
 	return {value, df};
 }
 
+auto sinh(const Sym& rhs) noexcept -> Sym{
+	const double value= std::sinh(rhs.value());
+	const double df = std::cosh(rhs.value())*rhs.dot();
+	return {value, df};
+}
+
+auto cosh(const Sym& rhs) noexcept -> Sym{
+	const double value= std::cosh(rhs.value());
+	const double df = -std::sinh(rhs.value())*rhs.dot();
+	return {value, df};
+}
+
+auto tanh(const Sym& rhs) noexcept -> Sym{
+	const double value= std::tanh(rhs.value());
+	const double df = std::pow(1.0f/std::cosh(rhs.value()),2)*rhs.dot();
+	return {value, df};
+}
+
+auto coth(const Sym& rhs) noexcept -> Sym{
+	const double value= 1.0f/std::tanh(rhs.value());
+	const double df = -std::pow(1.0f/std::sinh(rhs.value()),2)*rhs.dot();
+	return {value, df};
+}
+
+auto sech(const Sym& rhs) noexcept -> Sym{
+	const double value= 1.0f/std::cosh(rhs.value());
+	const double df = value*std::tanh(rhs.value())*rhs.dot();
+	return {value, df};
+}
+
+auto csch(const Sym& rhs) noexcept -> Sym{
+	const double value= 1.0f/std::sinh(rhs.value());
+	const double df = -value*(1.0f/std::tanh(rhs.value()))*rhs.dot();
+	return {value, df};
+}
+
 auto make_jvp() -> std::vector<double>;
 
 };
