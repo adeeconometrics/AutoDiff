@@ -35,8 +35,11 @@ auto operator<< (std::ostream& os, const std::vector<T>& v) -> std::ostream& {
     return os;
 }
 
+/**
+ * todo:
+ * - template specialization for base case
+ * */
 template <typename T>
-inline typename std::enable_if_t<std::is_arithmetic_v<T>>
 auto operator<<(std::ostream& os, const std::vector<double>& v) -> std::ostream& {
 	for(const auto i: v){
 		const float log = std::log10(std::abs(i));

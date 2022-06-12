@@ -3,8 +3,8 @@ Deliverables
 - [x] Reverse mode
 - [x] Forward mode
 - [ ] Higher-order partial differentiation
-- [ ] Template specialization of vectorized function
-- [ ] Printing format for matrix
+- [x] Template specialization of vectorized function
+- [x] Printing format for matrix
 - [ ] JVP
 - [ ] VJP
 - [ ] Jacobian matrix
