@@ -12,66 +12,132 @@
 #ifndef __RSYMBOL_H__
 #define __RSYMBOL_H__
 
+#include <type_traits>
+#include <concepts>
 #include <map>
 
 #include "Function.h"
 
 namespace ad{
+template <typename T>
+requires std::is_floating_point_v<T>
 class RSymbol {
 private:
-	std::map<RSymbol, double> m_local_gradient;
-	double m_value{};
+	std::map<RSymbol, T> m_local_gradient;
+	T m_value{};
 public:
-	RSymbol(const std::map<RSymbol, double> &, double);
-	RSymbol(double);
+	RSymbol(const std::map<RSymbol, T> &, T);
+	RSymbol(T);
 
-	auto value() const noexcept -> double;
-	auto local_gradient() const noexcept -> double;
-	
-	auto operator<(const RSymbol&) const -> bool;
-	auto operator>(const RSymbol&) const -> bool;
-	auto operator==(const RSymbol&) const -> bool;
-	auto operator!=(const RSymbol&) const -> bool;
+	auto value() const noexcept -> T;
+    auto local_gradient() const noexcept -> std::map<RSymbol, T>;
+
+    auto operator<(const RSymbol<T>&) const -> bool;
+	auto operator>(const RSymbol<T>&) const -> bool;
+	auto operator==(const RSymbol<T>&) const -> bool;
+	auto operator!=(const RSymbol<T>&) const -> bool;
 };
 
-auto operator+(const RSymbol&, const RSymbol&) -> RSymbol;
-auto operator-(const RSymbol&, const RSymbol&) -> RSymbol;
-auto operator*(const RSymbol&, const RSymbol&) -> RSymbol;
-auto operator/(const RSymbol&, const RSymbol&) -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto operator+(const RSymbol<T>&, const RSymbol<T>&) -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto operator-(const RSymbol<T>&, const RSymbol<T>&) -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto operator*(const RSymbol<T>&, const RSymbol<T>&) -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto operator/(const RSymbol<T>&, const RSymbol<T>&) -> RSymbol;
 
-auto pow(const RSymbol&, const RSymbol&) -> RSymbol;
-auto exp(const RSymbol&) noexcept -> RSymbol;
-auto ln(const RSymbol&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto pow(const RSymbol<T>&, const RSymbol<T>&) -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>;
+auto exp(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>;
+auto ln(const RSymbol<T>&) noexcept -> RSymbol;
 
-auto sin(const RSymbol&) noexcept -> RSymbol;
-auto cos(const RSymbol&) noexcept -> RSymbol;
-auto tan(const RSymbol&) noexcept -> RSymbol;
-auto cot(const RSymbol&) noexcept -> RSymbol;
-auto sec(const RSymbol&) noexcept -> RSymbol;
-auto csc(const RSymbol&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto sin(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto cos(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto tan(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto cot(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto sec(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto csc(const RSymbol<T>&) noexcept -> RSymbol;
 
-auto sinh(const RSymbol&) noexcept -> RSymbol;
-auto cosh(const RSymbol&) noexcept -> RSymbol;
-auto tanh(const RSymbol&) noexcept -> RSymbol;
-auto coth(const RSymbol&) noexcept -> RSymbol;
-auto sech(const RSymbol&) noexcept -> RSymbol;
-auto csch(const RSymbol&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto sinh(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto cosh(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto tanh(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto coth(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto sech(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto csch(const RSymbol<T>&) noexcept -> RSymbol;
 
-auto arcsin(const RSymbol&) noexcept -> RSymbol;
-auto arccos(const RSymbol&) noexcept -> RSymbol;
-auto arctan(const RSymbol&) noexcept -> RSymbol;
-auto arccot(const RSymbol&) noexcept -> RSymbol;
-auto arcsec(const RSymbol&) noexcept -> RSymbol;
-auto arccsc(const RSymbol&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto arcsin(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto arccos(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto arctan(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto arccot(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto arcsec(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto arccsc(const RSymbol<T>&) noexcept -> RSymbol;
 
-auto arcsinh(const RSymbol&) noexcept -> RSymbol;
-auto arccosh(const RSymbol&) noexcept -> RSymbol;
-auto arctanh(const RSymbol&) noexcept -> RSymbol;
-auto arccoth(const RSymbol&) noexcept -> RSymbol;
-auto arcsech(const RSymbol&) noexcept -> RSymbol;
-auto arccsch(const RSymbol&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto arcsinh(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto arccosh(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto arctanh(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto arccoth(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto arcsech(const RSymbol<T>&) noexcept -> RSymbol;
+template<typename T>
+requires std::is_floating_point_v<T>
+auto arccsch(const RSymbol<T>&) noexcept -> RSymbol;
 
-auto gradient(const RSymbol&) -> std::map<RSymbol, double>;
+auto gradient(const RSymbol<T>&) -> std::map<RSymbol, T>;
 
 }
 

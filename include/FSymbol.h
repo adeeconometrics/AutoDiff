@@ -28,7 +28,9 @@
 
 namespace ad{
 
-template <typename T> class FSymbol {
+template <typename T> 
+	requires std::is_floating_point_v<T>
+class FSymbol {
 private:
 	T m_dot{};
 	T m_val{};
@@ -39,53 +41,117 @@ public:
 	auto value() const noexcept -> T;
 	auto dot() const noexcept -> T;
 	
-	auto operator<(const FSymbol&) const -> bool;
-	auto operator>(const FSymbol&) const -> bool;
-	auto operator==(const FSymbol&) const -> bool;
-	auto operator!=(const FSymbol&) const -> bool;
+	auto operator<(const FSymbol<T>&) const -> bool;
+	auto operator>(const FSymbol<T>&) const -> bool;
+	auto operator==(const FSymbol<T>&) const -> bool;
+	auto operator!=(const FSymbol<T>&) const -> bool;
 };
-// auto with templates
-auto operator+(const FSymbol&, const FSymbol&) -> FSymbol;
-auto operator-(const FSymbol&, const FSymbol&) -> FSymbol;
-auto operator*(const FSymbol&, const FSymbol&) -> FSymbol;
-auto operator/(const FSymbol&, const FSymbol&) -> FSymbol;
 
-auto pow(const FSymbol&, const FSymbol&) -> FSymbol;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto operator+(const FSymbol<T>&, const FSymbol<T>&) -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto operator-(const FSymbol<T>&, const FSymbol<T>&) -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto operator*(const FSymbol<T>&, const FSymbol<T>&) -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto operator/(const FSymbol<T>&, const FSymbol<T>&) -> FSymbol<T>;
+
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto pow(const FSymbol<T>&, const FSymbol<T>&) -> FSymbol<T>;
 
 template <typename T>
 requires std::is_arithmetic<T>
-auto pow(const FSymbol&, T) -> FSymbol;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto pow(const FSymbol<T>&, T) -> FSymbol<T>;
 
-auto exp(const FSymbol&) noexcept -> FSymbol;
-auto ln(const FSymbol&) noexcept -> FSymbol;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto exp(const FSymbol<T>&) noexcept -> FSymbol
+template<typename T>
+	requires std::is_floating_point_v<T>;
+auto ln(const FSymbol<T>&) noexcept -> FSymbol<T>;
 
-auto sin(const FSymbol&) noexcept -> FSymbol;
-auto cos(const FSymbol&) noexcept -> FSymbol;
-auto tan(const FSymbol&) noexcept -> FSymbol;
-auto cot(const FSymbol&) noexcept -> FSymbol;
-auto sec(const FSymbol&) noexcept -> FSymbol;
-auto csc(const FSymbol&) noexcept -> FSymbol;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto sin(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto cos(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto tan(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto cot(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto sec(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto csc(const FSymbol<T>&) noexcept -> FSymbol<T>;
 
-auto sinh(const FSymbol&) noexcept -> FSymbol;
-auto cosh(const FSymbol&) noexcept -> FSymbol;
-auto tanh(const FSymbol&) noexcept -> FSymbol;
-auto coth(const FSymbol&) noexcept -> FSymbol;
-auto sech(const FSymbol&) noexcept -> FSymbol;
-auto csch(const FSymbol&) noexcept -> FSymbol;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto sinh(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto cosh(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto tanh(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto coth(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto sech(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto csch(const FSymbol<T>&) noexcept -> FSymbol<T>;
 
-auto arcsin(const FSymbol&) noexcept -> FSymbol;
-auto arccos(const FSymbol&) noexcept -> FSymbol;
-auto arctan(const FSymbol&) noexcept -> FSymbol;
-auto arccot(const FSymbol&) noexcept -> FSymbol;
-auto arcsec(const FSymbol&) noexcept -> FSymbol;
-auto arccsc(const FSymbol&) noexcept -> FSymbol;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto arcsin(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto arccos(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto arctan(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto arccot(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto arcsec(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto arccsc(const FSymbol<T>&) noexcept -> FSymbol<T>;
 
-auto arcsinh(const FSymbol&) noexcept -> FSymbol;
-auto arccosh(const FSymbol&) noexcept -> FSymbol;
-auto arctanh(const FSymbol&) noexcept -> FSymbol;
-auto arccoth(const FSymbol&) noexcept -> FSymbol;
-auto arcsech(const FSymbol&) noexcept -> FSymbol;
-auto arccsch(const FSymbol&) noexcept -> FSymbol;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto arcsinh(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto arccosh(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto arctanh(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto arccoth(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto arcsech(const FSymbol<T>&) noexcept -> FSymbol<T>;
+template<typename T>
+	requires std::is_floating_point_v<T>
+auto arccsch(const FSymbol<T>&) noexcept -> FSymbol<T>;
 
 }
 
