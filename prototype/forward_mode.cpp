@@ -34,14 +34,23 @@ auto operator*(const Sym& lhs, const Sym& rhs) -> Sym {
 }
 
 auto operator/(const Sym& lhs, const Sym& rhs) -> Sym {
-	const double df = (lhs.dot()*rhs.value() - lhs.value()*rhs.dot())/std::pow(rhs.value(),2);
+	const double df = 
+		(lhs.dot()*rhs.value() - lhs.value()*rhs.dot())/std::pow(rhs.value(),2);
 	return {lhs.value()/rhs.value(), df};
 }
 
 auto pow(const Sym& base, const Sym& exp) -> Sym{
-	const double df_base = std::log(base.value())*std::pow(base.value(), exp.value())*exp.dot();
+	const double df_base = std::log(base.value()) * std::pow(base.value(), exp.value())*exp.dot(); 
 	return {
 		std::pow(base.value(), exp.value()),
+		df_base
+	};
+}
+
+auto pow(const Sym& base, double exp) -> Sym{
+	const double df_base = base.dot()*std::pow(base.value(), exp - 1); 
+	return {
+		std::pow(base.value(), exp),
 		df_base
 	};
 }
@@ -141,17 +150,18 @@ auto make_jvp() -> std::vector<double>;
  * */
 
 auto main(void) -> int {
-	auto a = ad::Sym{1.5, 0};
-	auto b = ad::Sym{0.5, 1};
+	auto a = ad::Sym{1.5, 0}; // 0 -- wrt b
+	auto b = ad::Sym{0.5, 1}; // 0 -- wrt a
 
 	auto f = [](const ad::Sym& a, const ad::Sym& b) -> ad::Sym{ 
-		return (ad::sin(a*b)/ad::cos(b))*ad::pow(a,b);
+		return ad::sin(a*b)/ad::cos(b) * ad::pow(a,b);
 	};
 
-	auto f1 = f(a,b); // first-order diff
+	auto f1 = f(a,b); // first-order diff wrt b
 	auto f2 = f(f1, b); // second-order diff wrt a
 
 	std::cout << std::setprecision(15) << f1.dot() << '\n';
-	std::cout << std::setprecision(15) << f1.value() << '\n';
+	// std::cout << std::setprecision(15) << f1.value() << '\n';
+	// std::cout << std::setprecision(15) << f2.value() << '\n';
 	std::cout << std::setprecision(15) << f2.dot() << '\n';
 }
