@@ -1,3 +1,14 @@
+/**
+ * @file Function.h
+ * @author ddamiana
+ * @brief contains base functions for scalar and vector-valued functions
+ * @version 0.1
+ * @date 2022-06-13
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #ifndef __FUNCTION_H__
 #define __FUNCTION_H__
 

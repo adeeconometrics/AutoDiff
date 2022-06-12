@@ -1,10 +1,7 @@
-#ifndef __SYMBOL_H__
-#define __SYMBOL_H__
-
 /**
  * @file Symbol.h
  * @author ddamiana
- * @brief contains declarations for forward-pass autodiff
+ * @brief Root class for forward_mode and reverse_mode
  * @version 0.1
  * @date 2022-05-21
  *
@@ -12,16 +9,19 @@
  *
  */
 
+#ifndef __SYMBOL_H__
+#define __SYMBOL_H__
+
+// todo:
+// remove obsolete methods!
+
 #include <type_traits>
 #include <functional>
 #include <concepts>
 #include <list>
 #include <set>
 
-
 namespace ad {
-
-
 class Symbol {
 private:
   

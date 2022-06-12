@@ -62,9 +62,5 @@ auto gradient(const Symbol&) -> std::map<Symbol, double>;
 
 }
 
-}
-
-
-
 
 #endif // __AUTODIFF_H__

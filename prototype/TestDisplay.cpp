@@ -38,6 +38,7 @@ auto operator<< (std::ostream& os, const std::vector<T>& v) -> std::ostream& {
 /**
  * todo:
  * - template specialization for base case
+ * - write print class 
  * */
 template <typename T>
 auto operator<<(std::ostream& os, const std::vector<double>& v) -> std::ostream& {
@@ -60,7 +61,7 @@ auto operator<<(std::ostream& os, const std::vector<double>& v) -> std::ostream&
 									TextSpace.Exponent - TextSpace.DecimalSign -
 									digits_after_dot;
 			if (new_precision > available_space){
-				new_precision = 0;
+					new_precision = 0;
 		    }
 			os << std::scientific << std::setprecision(new_precision);
 		} else {
@@ -68,7 +69,7 @@ auto operator<<(std::ostream& os, const std::vector<double>& v) -> std::ostream&
 			const uint8_t fixed_digitspace_after_decimal = available_space - TextSpace.DecimalSign - fixed_digitspace_before_decimal;
 			os << std::fixed << std::setprecision(fixed_digitspace_after_decimal);
 		}
-		
+			
 	    os << i;
 	}
 	return os << '\n';

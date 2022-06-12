@@ -3,7 +3,6 @@
 #include <iostream>
 #include <map>
 
-
 namespace ad {
 
 class Symbol {
@@ -138,7 +137,7 @@ auto cosh(const Symbol &rhs) noexcept -> Symbol {
 
 auto tanh(const Symbol &rhs) noexcept -> Symbol {
   double value = std::tanh(rhs.value());
-  double df_rhs = 1.0 / std::pow(std::cosh(rhs.value()), 2); // cont .. 
+  double df_rhs = 1.0 / std::pow(std::cosh(rhs.value()), 2); // cont ..
   return {{{rhs, df_rhs}}, value};
 }
 
@@ -197,4 +196,3 @@ auto gradient(const Symbol &variable) -> std::map<Symbol, double> {
 }
 
 } // namespace ad
-
