@@ -19,6 +19,11 @@ The library supports operating partial derivatibes of the elementary functions
 3. Partial Differentiation
 4. Higher order Partial Differentiation 
 5. Find the Gradient vector
+6. Find Jacobian-Vector Product
+7. Find Jacobian Matrix
+8. Find Directional Derivative
+9. Find Total Derivative
+10. Find Hessian Matrix
 
 ## Non-functional requirements
 1. Correctness
