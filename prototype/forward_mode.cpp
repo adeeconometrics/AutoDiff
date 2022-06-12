@@ -38,7 +38,7 @@ auto operator/(const Sym& lhs, const Sym& rhs) -> Sym {
 		(lhs.dot()*rhs.value() - lhs.value()*rhs.dot())/std::pow(rhs.value(),2);
 	return {lhs.value()/rhs.value(), df};
 }
-
+// has problems to address df.dexp and df.dbase case
 auto pow(const Sym& base, const Sym& exp) -> Sym{
 	const double df_base = std::log(base.value()) * std::pow(base.value(), exp.value())*exp.dot(); 
 	return {
