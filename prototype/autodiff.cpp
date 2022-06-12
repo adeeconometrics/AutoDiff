@@ -198,4 +198,3 @@ auto gradient(const Symbol &variable) -> std::map<Symbol, double> {
 
 } // namespace ad
 
-

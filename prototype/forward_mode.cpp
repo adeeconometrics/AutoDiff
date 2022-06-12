@@ -135,10 +135,23 @@ auto make_jvp() -> std::vector<double>;
 };
 
 
+/**
+ * todo:
+ * - higher-order diff in forward mode autodiff 
+ * */
+
 auto main(void) -> int {
 	auto a = ad::Sym{1.5, 0};
 	auto b = ad::Sym{0.5, 1};
 
-	auto f = ad::sin(a*b)/ad::cos(b)*ad::pow(a,b);
-	std::cout << std::setprecision(15) << f.dot() << '\n'; 
+	auto f = [](const ad::Sym& a, const ad::Sym& b) -> ad::Sym{ 
+		return (ad::sin(a*b)/ad::cos(b))*ad::pow(a,b);
+	};
+
+	auto f1 = f(a,b); // first-order diff
+	auto f2 = f(f1, b); // second-order diff wrt a
+
+	std::cout << std::setprecision(15) << f1.dot() << '\n';
+	std::cout << std::setprecision(15) << f1.value() << '\n';
+	std::cout << std::setprecision(15) << f2.dot() << '\n';
 }
