@@ -3,7 +3,8 @@
 #include <cstdint>                                                                              
 #include <iostream>                                                                             
 #include <iomanip>                                                                              
-#include <vector>                                                                               
+#include <vector> 
+#include <list>                                                                              
 #include <cmath>                                                                                
 
 const std::vector<std::vector<double>> array = {                                                
@@ -24,6 +25,17 @@ const std::vector<std::vector<double>> array = {
 template <typename T>
 concept Number = std::is_arithmetic<T>::value;
 
+template <typename T>
+concept HasIterator = requires(T t){
+    typename T::const_iterator;
+    typename T::iterator;
+};
+
+template <typename T>
+concept BaseCase = requires(typename T::value_type value) {
+	std::is_arithmetic<decltype(value)>::value;
+};
+
 const struct {
 	uint8_t Width = 8;
 	uint8_t DecimalSign = 1;
@@ -32,16 +44,16 @@ const struct {
 	uint8_t Exponent = 2;
 } TextSpace;
 
-template <typename T>
+template <HasIterator T>
 auto operator<< (std::ostream& os, const std::vector<T>& v) -> std::ostream& {
     for(const auto  i: v)
         os << i;
     return os;
 }
 
-template <Number T>
+template <BaseCase T>
 auto operator<<(std::ostream &os,
-                const std::vector<T> &v) ->std::ostream & {
+                const T&v) ->std::ostream & {
   for (const auto i : v) {
     const float log = std::log10(std::abs(i));
     const uint8_t available_space =
@@ -83,8 +95,11 @@ int main() {
                                                                 
                                                             }
     };
+
+	std::list<double> l {1,2,3,4,5};
+	std::cout << l;
 	std::cout << barray;
 	//std::cout << array[2];
 	//std::cout << array[3];
-	std::cout << array;
+	// std::cout << array;
 }

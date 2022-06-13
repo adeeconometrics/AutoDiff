@@ -12,117 +12,66 @@
 #ifndef __FUNCTION_H__
 #define __FUNCTION_H__
 
-#include "Symbol.h"
+#include "Utils.h"
 
 namespace ad {
-    template <typename T, typename U = T>
-    requires SymbolLike<T> && SymbolLike<U>
-    auto pow(const T &lhs, const U &rhs) noexcept -> Symbol;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto exp(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto operator+(const T &t, const T &t) -> T;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto ln(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto operator-(const T &, const T &) -> T;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto sin(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto operator*(const T &, const T &) -> T;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto cos(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto operator/(const T &, const T &) -> T;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto tan(const T &rhs) noexcept -> Symbol;
+template <typename T, typename U>
+requires AbstractNumericVector<T> && IsNumber<U>
+auto operator+(const T &t, U) -> T;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto cot(const T &rhs) noexcept -> Symbol;
+template <typename T, typename U>
+requires AbstractNumericVector<T> && IsNumber<U>
+auto operator-(const T &, U) -> T;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto sec(const T &rhs) noexcept -> Symbol;
+template <typename T, typename U>
+requires AbstractNumericVector<T> && IsNumber<U>
+auto operator*(const T &, U) -> T;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto csc(const T &rhs) noexcept -> Symbol;
+template <typename T, typename U>
+requires AbstractNumericVector<T> && IsNumber<U>
+auto operator/(const T &, U) -> T;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto sinh(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto sin(const T &t) -> T;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto cosh(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto cos(const T &t) -> T;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto tanh(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto tan(const T &t) -> T;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto coth(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto cot(const T &) -> T;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto sech(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto sec(const T &) -> T;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto csch(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto csc(const T &) -> T;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto asin(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto acos(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto atan(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto acot(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto asec(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto acsc(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto asinh(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto acosh(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto atanh(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto acoth(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto asech(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto acsch(const T &rhs) noexcept -> Symbol;
-    
 } // namespace ad
 
 #endif // __FUNCTION_H__

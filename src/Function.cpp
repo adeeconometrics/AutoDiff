@@ -1,119 +1,140 @@
+#include "Function.h"
+
+#include <type_traits>
 #include <algorithm>
-#include <vector>
+#include <concepts>
 #include <cmath>
 
-#include "Function.h"
-#include "Symbol.h"
-
-
 namespace ad{
-    template <typename T, typename U = T>
-    requires SymbolLike<T> && SymbolLike<U>
-    auto pow(const T &lhs, const U &rhs) noexcept -> Symbol;
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto exp(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto operator+(const T &t1, const T &t1) -> T { 
+    T result; 
+    std::transform(t1.cbegin(), t1.cend(), t2.cbegin(),
+        std::back_inserter(result), std::plus<>()
+    );
+    return result;
+}
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto ln(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto operator-(const T &t1, const T &t1) -> T{
+    T result;
+    std::transform(t1.cbegin(), t1.cend(), t2.cbegin(),
+                   std::back_inserter(result), std::minus<>());
+    return result;
+}
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto sin(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto operator*(const T &t1, const T &t1) -> T {
+  T result;
+  std::transform(t1.cbegin(), t1.cend(), t2.cbegin(),
+                 std::back_inserter(result), std::multiplies<>());
+  return result;
+}
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto cos(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto operator/(const T &t1, const T &t1) -> T {
+  T result;
+  std::transform(t1.cbegin(), t1.cend(), t2.cbegin(),
+                 std::back_inserter(result), std::divides<>());
+  return result;
+}
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto tan(const T &rhs) noexcept -> Symbol;
+template <typename T, typename U>
+requires AbstractNumericVector<T> && IsNumber<U>
+auto operator+(const T &t, U u) -> T{
+    T result;
+    std::for_each(t.cbegin(), t.cend(),
+        [&result](auto i) -> void {result.push_back(i + u); }
+    );
+    return result;
+}
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto cot(const T &rhs) noexcept -> Symbol;
+template <typename T, typename U>
+requires AbstractNumericVector<T> && IsNumber<U>
+auto operator-(const T &t, U u) -> T{
+  T result;
+  std::for_each(t.cbegin(), t.cend(),
+                [&result](auto i) -> void { result.push_back(i - u); });
+  return result;
+}
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto sec(const T &rhs) noexcept -> Symbol;
+template <typename T, typename U>
+requires AbstractNumericVector<T> && IsNumber<U>
+auto operator*(const T &t, U u) -> T{
+  T result;
+  std::for_each(t.cbegin(), t.cend(),
+                [&result](auto i) -> void { result.push_back(i * u); });
+  return result;
+}
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto csc(const T &rhs) noexcept -> Symbol;
+template <typename T, typename U>
+requires AbstractNumericVector<T> && IsNumber<U>
+auto operator/(const T &t, U u) -> T{
+  T result;
+  std::for_each(t.cbegin(), t.cend(),
+                [&result](auto i) -> void { result.push_back(i / u); });
+  return result;
+}
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto sinh(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto sin(const T &t) -> T{
+    T result;
+    std::for_each(t.cbegin(), t.cend(),
+        [&result](auto i) -> void {result.push_back(std::sin(i));}
+    );
+    return result; 
+}
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto cosh(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto cos(const T &t) -> T{
+  T result;
+  std::for_each(t.cbegin(), t.cend(),
+                [&result](auto i) -> void { result.push_back(std::cos(i)); });
+  return result;
+}
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto tanh(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto tan(const T &t) -> T{
+  T result;
+  std::for_each(t.cbegin(), t.cend(),
+                [&result](auto i) -> void { result.push_back(std::tan(i)); });
+  return result;
+}
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto coth(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto cot(const T &t) -> T {
+  T result;
+  std::for_each(t.cbegin(), t.cend(),
+                [&result](auto i) -> void { result.push_back(1/std::tan(i)); });
+  return result;
+}
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto sech(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto sec(const T &t) -> T {
+  T result;
+  std::for_each(t.cbegin(), t.cend(),
+                [&result](auto i) -> void { result.push_back(1/std::cos(i)); });
+  return result;
+}
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto csch(const T &rhs) noexcept -> Symbol;
+template <typename T>
+requires AbstractNumericVector<T>
+auto csc(const T &t) -> T {
+  T result;
+  std::for_each(t.cbegin(), t.cend(),
+                [&result](auto i) -> void { result.push_back(1/std::sin(i)); });
+  return result;
+}
 
-    template <typename T>
-    requires SymbolLike<T>
-    auto asin(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto acos(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto atan(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto acot(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto asec(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto acsc(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto asinh(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto acosh(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto atanh(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto acoth(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto asech(const T &rhs) noexcept -> Symbol;
-
-    template <typename T>
-    requires SymbolLike<T>
-    auto acsch(const T &rhs) noexcept -> Symbol;
-    
 } // namespace ad
 

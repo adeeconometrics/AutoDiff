@@ -2,6 +2,7 @@
 #include <type_traits>
 #include <algorithm>
 #include <vector>
+#include <list>
 #include <cmath>
 #include <iostream>
 
@@ -14,7 +15,7 @@ concept HasPushBack = requires (T t, typename T::const_reference element) {
 };
 
 template <typename Param, template <typename T> typename Container>
-requires HasPushBack<Container<Param>>
+requires HasPushBack<Container<Param>> && std::is_arithmetic<Param>
 auto sin(const Container<Param> &v) noexcept -> Container<Param> {
   Container<Param> result; // {}
   std::for_each(v.cbegin(), v.cend(), [&result](const auto i) -> void {
@@ -23,8 +24,9 @@ auto sin(const Container<Param> &v) noexcept -> Container<Param> {
   return result;
 }
 
-template<typename T>
-auto operator<<(std::ostream& os, const std::vector<T>& v) -> std::ostream& {
+template <typename Param, template <typename T> typename Container>
+requires HasPushBack<Container<Param>> 
+auto operator<<(std::ostream& os, const Container<Param>& v) -> std::ostream& {
 	for(const auto i: v)
 		os << i << " ";
 	return os << '\n';
@@ -32,5 +34,7 @@ auto operator<<(std::ostream& os, const std::vector<T>& v) -> std::ostream& {
 
 auto main(void) -> int {
 	std::vector<double> v {1,2,3,4,5,5,6,8};
-	std::cout << sin(v);
+	std::list<double> l {v.cbegin(), v.cend()};
+	std::cout << "vector: " <<  sin(v); 
+	std::cout << "list: " << sin(l);
 }
