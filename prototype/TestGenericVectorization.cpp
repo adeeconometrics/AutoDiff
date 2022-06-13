@@ -5,16 +5,22 @@
 #include <cmath>
 #include <iostream>
 
+template <typename T>
+concept HasPushBack = requires (T t, typename T::const_reference element) {
+	typename T::const_iterator;
+	typename T::const_reference;
+
+	{t.push_back(element)} -> std::same_as<void>;
+};
+
 template <typename Param, template <typename T> typename Container>
-// containers that contains push_back
-auto sin(const Container<Param>& v) noexcept -> Container<Param>{
-	Container<Param> result; // {}
-	std::for_each(v.cbegin(), v.cend(),
-			[&result](const auto i) -> void {
-				result.push_back(std::sin(i));
-			}
-	);
-	return result;
+requires HasPushBack<Container<Param>>
+auto sin(const Container<Param> &v) noexcept -> Container<Param> {
+  Container<Param> result; // {}
+  std::for_each(v.cbegin(), v.cend(), [&result](const auto i) -> void {
+    result.push_back(std::sin(i));
+  });
+  return result;
 }
 
 template<typename T>
