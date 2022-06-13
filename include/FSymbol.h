@@ -12,11 +12,12 @@
 #ifndef __FSYMBOL_H__
 #define __FSYMBOL_H__
 
+#include "Function.h"
+#include "Utils.h"
+
 #include <type_traits>
 #include <concepts>
 #include <map>
-
-#include "Function.h"
 
 /**
  * todo:
@@ -48,7 +49,7 @@ public:
 };
 
 template<typename T>
-	requires std::is_floating_point_v<T>
+	requires std::is_floating_point_v<T> 
 auto operator+(const FSymbol<T>&, const FSymbol<T>&) -> FSymbol<T>;
 template<typename T>
 	requires std::is_floating_point_v<T>
