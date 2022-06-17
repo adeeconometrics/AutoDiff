@@ -3,9 +3,9 @@
 ## Template library
 - [ ] `const` and `constexpr` when see fit
 - [ ] handle `std::domain_exception`
-- [ ] inverse trigonometric functions
+- [x] inverse trigonometric functions
 - [ ] higher-order differentiation
-- [ ] vectorize functions 
+- [x] vectorize functions 
 - [x] Resolve recursion using lambdas
 - [x] Resolve Segmentation faults
 - [x] Build the computational graph
@@ -36,5 +36,9 @@ Future Features
 
 --- 
 Questions
+- how well does the compiler identify loop fusion for optimization? 
+- which is more efficient: list, vector, or map for insertion and retrieval tasks?
+    - does all containers have total ordering properties?*
+    - does all containers have hash?*  
 - is applying functions into a for loop just as efficient as `numpy`?
 
