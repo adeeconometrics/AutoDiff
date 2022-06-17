@@ -33,6 +33,11 @@ concept HasPushBack = requires(T t, typename T::const_reference element) {
 };
 
 template <typename T>
+concept HasSize = requires(T t) {
+  { t.size(void) } -> std::same_as<size_t>;
+};
+
+template <typename T>
 concept IsIterable = requires(T t) {
   typename T::const_iterator;
   typename T::iterator;
@@ -45,10 +50,19 @@ concept HasNumericValueType = requires(typename T::value_type value) {
 };
 
 template <typename T>
+concept HasRealValueType = requires(typename T::value_type value) {
+  typename T::value_type;
+  std::is_floating_point<decltype(value)>::value;
+};
+
+template <typename T>
 concept IsSymbolOrNumeric = IsNumber<T> || std::is_same<T, Symbol>::value;
 
 template <typename T>
 concept AbstractNumericVector = HasNumericValueType<T> && HasPushBack<T>;
+
+template <typename T>
+concept AbstractRealVector = HasRealValueType<T> && HasPushBack<T>;
 
 const struct {
   uint8_t Width = 8;
