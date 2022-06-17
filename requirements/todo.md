@@ -29,6 +29,11 @@ Test
 - [ ] composable gradient for reverse-mode higher-order PD
 - [ ] composing forward-mode functions for higher-order PD
 
+
+Future Features
+- [ ] Loop fusion
+- [ ] Concurrency
+
 --- 
 Questions
 - is applying functions into a for loop just as efficient as `numpy`?

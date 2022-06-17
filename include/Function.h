@@ -117,6 +117,16 @@ template <typename T, typename U>
 requires AbstractNumericVector<T> && IsNumber<U>
 auto operator/(U u, const T &t) -> T { return t / u; }
 
+template <typename T>
+requires AbstractNumericVector<T>
+auto abs(const T &rhs) -> T {
+  T result;
+  std::for_each(rhs.cbegin(), rhs.cend(), [&result](const auto i) -> void {
+    result.push_back(std::abs(i));
+  });
+  return result;
+}
+
 // consider adding element-wise pow*
 template <typename T, typename U>
 requires AbstractNumericVector<T> && IsNumber<U>
