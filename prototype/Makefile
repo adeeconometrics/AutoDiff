@@ -1,5 +1,5 @@
 MainProgram: main.o reverse_mode.o forward_mode.o
-	g++ Main.o reverse_mode.o forward_mode.o -o MainProgram
+	g++ main.o reverse_mode.o forward_mode.o -o MainProgram
 
 main.o: main.cpp reverse_mode.h reverse_mode.cpp forward_mode.h forward_mode.cpp
 	g++ -std=c++2a -Wall -Werror -Wextra -pedantic -c main.cpp

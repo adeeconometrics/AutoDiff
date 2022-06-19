@@ -3,20 +3,29 @@
 #include <iostream>
 #include <iomanip>
 
-auto main(void) -> int {
-  using namespace ad;
+using namespace ad;
 
+auto test_trig(const Symbol& a, const Symbol& b) -> void {
+  auto y = sin(a) * cos(a*b) * cot(a-b) *pow(a, b)/tan(a) * sec(b) - csc(b*a);
+  auto df_y = gradient(y);
+
+  std::cout << "df_y wrt a: " <<  std::setprecision(15) << df_y[a] << '\n'; 
+  std::cout << "df_y wrt b: " <<  std::setprecision(15) << df_y[b] << '\n';
+}
+
+auto test_trigh(const Symbol& a, const Symbol& b) -> void {
+  auto y = sinh(a) * cosh(a*b) * coth(a-b) *pow(a, b)/tanh(a) * sech(b) - csch(b*a);
+  auto df_y = gradient(y);
+
+  std::cout << "df_y wrt a: " <<  std::setprecision(15) << df_y[a] << '\n'; 
+  std::cout << "df_y wrt b: " <<  std::setprecision(15) << df_y[b] << '\n';
+}
+
+auto main(void) -> int {
   Symbol a{1.1};
   Symbol b{0.5};
 
-  // auto y = sech(a) * cosh(a*b) * coth(a-b) *pow(a, b);
-  // auto y = sin(a) * cos(a * b) * tan(a - b) * pow(a, b);
-  auto y = sin(a*b)/cos(b)*pow(a,b);
-  auto df = gradient(y);
-  auto df_d2a = gradient(df[a]);
+  test_trig(a,b);
+  test_trigh(a,b);
 
-
-  // std::cout << "d value: " << std::setprecision(20) << y.value() << '\n';
-  // std::cout << "df/da: " << std::setprecision(20) << df[a] << '\n';
-  std::cout << "df/db: " << std::setprecision(20) << df_d2a[a] << '\n';
 }
