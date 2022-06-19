@@ -1,5 +1,5 @@
 # todo 
-
+- [ ] Documentation in Sphinx
 ## Template library
 - [ ] `const` and `constexpr` when see fit
 - [ ] handle `std::domain_exception`

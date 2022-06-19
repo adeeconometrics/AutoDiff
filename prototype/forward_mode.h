@@ -3,7 +3,7 @@
 
 #include <vector>
 
-using namespace ad{
+namespace ad{
 class Sym{
 private:
 	double m_val{};

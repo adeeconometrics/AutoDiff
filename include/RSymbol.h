@@ -12,11 +12,12 @@
 #ifndef __RSYMBOL_H__
 #define __RSYMBOL_H__
 
+#include "Function.h"
+#include "Utilities.h"
+
 #include <type_traits>
 #include <concepts>
 #include <map>
-
-#include "Function.h"
 
 namespace ad{
 template <typename T>
@@ -32,110 +33,110 @@ public:
 	auto value() const noexcept -> T;
     auto local_gradient() const noexcept -> std::map<RSymbol, T>;
 
-    auto operator<(const RSymbol<T>&) const -> bool;
-	auto operator>(const RSymbol<T>&) const -> bool;
-	auto operator==(const RSymbol<T>&) const -> bool;
-	auto operator!=(const RSymbol<T>&) const -> bool;
+    auto operator<(const RSymbol<T>& rhs) const -> bool;
+	auto operator>(const RSymbol<T>& rhs) const -> bool;
+	auto operator==(const RSymbol<T>& rhs) const -> bool;
+	auto operator!=(const RSymbol<T>& rhs) const -> bool;
 };
 
 template<typename T>
 requires std::is_floating_point_v<T>
-auto operator+(const RSymbol<T>&, const RSymbol<T>&) -> RSymbol;
+auto operator+(const RSymbol<T>& lhs, const RSymbol<T>& rhs) -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto operator-(const RSymbol<T>&, const RSymbol<T>&) -> RSymbol;
+auto operator-(const RSymbol<T>& lhs, const RSymbol<T>& rhs) -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto operator*(const RSymbol<T>&, const RSymbol<T>&) -> RSymbol;
+auto operator*(const RSymbol<T>& lhs, const RSymbol<T>& rhs) -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto operator/(const RSymbol<T>&, const RSymbol<T>&) -> RSymbol;
+auto operator/(const RSymbol<T>& lhs, const RSymbol<T>& rhs) -> RSymbol;
 
 template<typename T>
 requires std::is_floating_point_v<T>
-auto pow(const RSymbol<T>&, const RSymbol<T>&) -> RSymbol;
+auto pow(const RSymbol<T>& lhs, const RSymbol<T>& rhs) -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>;
-auto exp(const RSymbol<T>&) noexcept -> RSymbol;
+auto exp(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>;
-auto ln(const RSymbol<T>&) noexcept -> RSymbol;
+auto ln(const RSymbol<T>& rhs) noexcept -> RSymbol;
 
 template<typename T>
 requires std::is_floating_point_v<T>
-auto sin(const RSymbol<T>&) noexcept -> RSymbol;
+auto sin(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto cos(const RSymbol<T>&) noexcept -> RSymbol;
+auto cos(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto tan(const RSymbol<T>&) noexcept -> RSymbol;
+auto tan(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto cot(const RSymbol<T>&) noexcept -> RSymbol;
+auto cot(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto sec(const RSymbol<T>&) noexcept -> RSymbol;
+auto sec(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto csc(const RSymbol<T>&) noexcept -> RSymbol;
+auto csc(const RSymbol<T>& rhs) noexcept -> RSymbol;
 
 template<typename T>
 requires std::is_floating_point_v<T>
-auto sinh(const RSymbol<T>&) noexcept -> RSymbol;
+auto sinh(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto cosh(const RSymbol<T>&) noexcept -> RSymbol;
+auto cosh(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto tanh(const RSymbol<T>&) noexcept -> RSymbol;
+auto tanh(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto coth(const RSymbol<T>&) noexcept -> RSymbol;
+auto coth(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto sech(const RSymbol<T>&) noexcept -> RSymbol;
+auto sech(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto csch(const RSymbol<T>&) noexcept -> RSymbol;
+auto csch(const RSymbol<T>& rhs) noexcept -> RSymbol;
 
 template<typename T>
 requires std::is_floating_point_v<T>
-auto arcsin(const RSymbol<T>&) noexcept -> RSymbol;
+auto asin(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto arccos(const RSymbol<T>&) noexcept -> RSymbol;
+auto acos(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto arctan(const RSymbol<T>&) noexcept -> RSymbol;
+auto atan(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto arccot(const RSymbol<T>&) noexcept -> RSymbol;
+auto acot(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto arcsec(const RSymbol<T>&) noexcept -> RSymbol;
+auto asec(const RSymbol<T>& rhs) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto arccsc(const RSymbol<T>&) noexcept -> RSymbol;
+auto acsc(const RSymbol<T>& rhs) noexcept -> RSymbol;
 
 template<typename T>
 requires std::is_floating_point_v<T>
-auto arcsinh(const RSymbol<T>&) noexcept -> RSymbol;
+auto asinh(const RSymbol<T>&) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto arccosh(const RSymbol<T>&) noexcept -> RSymbol;
+auto acosh(const RSymbol<T>&) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto arctanh(const RSymbol<T>&) noexcept -> RSymbol;
+auto atanh(const RSymbol<T>&) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto arccoth(const RSymbol<T>&) noexcept -> RSymbol;
+auto acoth(const RSymbol<T>&) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto arcsech(const RSymbol<T>&) noexcept -> RSymbol;
+auto asech(const RSymbol<T>&) noexcept -> RSymbol;
 template<typename T>
 requires std::is_floating_point_v<T>
-auto arccsch(const RSymbol<T>&) noexcept -> RSymbol;
+auto acsch(const RSymbol<T>&) noexcept -> RSymbol;
 
 auto gradient(const RSymbol<T>&) -> std::map<RSymbol, T>;
 

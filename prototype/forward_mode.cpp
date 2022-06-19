@@ -1,3 +1,5 @@
+#include "forward_mode.h"
+
 #include <cmath>
 #include <functional>
 #include <iomanip>
@@ -6,19 +8,12 @@
 
 namespace ad {
 
-class Sym {
-private:
-  double m_val{};
-  double m_dot{};
+Sym::Sym(double _val, double _dot) : m_val(_val), m_dot(_dot) {}
 
-public:
-  Sym(double _val, double _dot) : m_val(_val), m_dot(_dot) {}
+Sym::Sym(double _val) : m_val(_val) {}
 
-  Sym(double _val) : m_val(_val) {}
-
-  auto value() const noexcept -> double { return m_val; }
-  auto dot() const noexcept -> double { return m_dot; }
-};
+auto Sym::value() const noexcept -> double { return m_val; }
+auto Sym::dot() const noexcept -> double { return m_dot; }
 
 auto operator+(const Sym &lhs, const Sym &rhs) -> Sym {
   return {lhs.value() + rhs.value(), lhs.dot() + rhs.dot()};
@@ -144,19 +139,19 @@ auto make_jvp() -> std::vector<double>;
  * - resolve issues with derivative wrt b
  * */
 
-auto main(void) -> int {
-  auto a = ad::Sym{1.5, 0}; // 0 -- wrt b
-  auto b = ad::Sym{0.5, 1}; // 0 -- wrt a
+// auto main(void) -> int {
+//   auto a = ad::Sym{1.5, 0}; // 0 -- wrt b
+//   auto b = ad::Sym{0.5, 1}; // 0 -- wrt a
 
-  auto f = [](const ad::Sym &a, const ad::Sym &b) -> ad::Sym {
-    return ad::sin(a * b) / ad::cos(b) * ad::pow(a, b);
-  };
+//   auto f = [](const ad::Sym &a, const ad::Sym &b) -> ad::Sym {
+//     return ad::sin(a * b) / ad::cos(b) * ad::pow(a, b);
+//   };
 
-  auto f1 = f(a, b);  // first-order diff wrt b
-  auto f2 = f(f1, b); // second-order diff wrt a
+//   auto f1 = f(a, b);  // first-order diff wrt b
+//   auto f2 = f(f1, b); // second-order diff wrt a
 
-  std::cout << std::setprecision(15) << f1.dot() << '\n';
-  // std::cout << std::setprecision(15) << f1.value() << '\n';
-  // std::cout << std::setprecision(15) << f2.value() << '\n';
-  std::cout << std::setprecision(15) << f2.dot() << '\n';
-}
+//   std::cout << std::setprecision(15) << f1.dot() << '\n';
+//   // std::cout << std::setprecision(15) << f1.value() << '\n';
+//   // std::cout << std::setprecision(15) << f2.value() << '\n';
+//   std::cout << std::setprecision(15) << f2.dot() << '\n';
+// }
