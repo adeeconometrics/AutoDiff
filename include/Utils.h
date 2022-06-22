@@ -44,6 +44,14 @@ concept IsIterable = requires(T t) {
 };
 
 template <typename T>
+concept IsOrdered = requires(T a, T b){
+  {a > b} -> std::same_as<bool>;
+  {a < b} -> std::same_as<bool>;
+  {a == b} -> std::same_as<bool>;
+  {a != b} -> std::same_as<bool>;
+};
+
+template <typename T>
 concept HasNumericValueType = requires(typename T::value_type value) {
   typename T::value_type;
   std::is_arithmetic<decltype(value)>::value;
@@ -63,6 +71,9 @@ concept AbstractNumericVector = HasNumericValueType<T> && HasPushBack<T>;
 
 template <typename T>
 concept AbstractRealVector = HasRealValueType<T> && HasPushBack<T>;
+
+template <typename T>
+concept OrderedRealVector = IsOrdered<T> && AbstractRealVector <T>;
 
 const struct {
   uint8_t Width = 8;
