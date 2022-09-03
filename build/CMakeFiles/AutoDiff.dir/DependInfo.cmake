@@ -1,17 +1,17 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
-  "CXX"
   )
-# The set of files for implicit dependencies of each language:
-set(CMAKE_DEPENDS_CHECK_CXX
-  "/mnt/c/Users/amianadave/Documents/AutoDiff/src/Main.cpp" "/mnt/c/Users/amianadave/Documents/AutoDiff/build/CMakeFiles/AutoDiff.dir/src/Main.cpp.o"
-  "/mnt/c/Users/amianadave/Documents/AutoDiff/src/Symbol.cpp" "/mnt/c/Users/amianadave/Documents/AutoDiff/build/CMakeFiles/AutoDiff.dir/src/Symbol.cpp.o"
-  )
-set(CMAKE_CXX_COMPILER_ID "GNU")
 
-# The include file search paths:
-set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "../include"
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/ddamiana/Documents/CodeProjects/Cpp/AutoDiff/src/FSymbol.cpp" "CMakeFiles/AutoDiff.dir/src/FSymbol.cpp.o" "gcc" "CMakeFiles/AutoDiff.dir/src/FSymbol.cpp.o.d"
+  "/home/ddamiana/Documents/CodeProjects/Cpp/AutoDiff/src/Main.cpp" "CMakeFiles/AutoDiff.dir/src/Main.cpp.o" "gcc" "CMakeFiles/AutoDiff.dir/src/Main.cpp.o.d"
+  "/home/ddamiana/Documents/CodeProjects/Cpp/AutoDiff/src/RSymbol.cpp" "CMakeFiles/AutoDiff.dir/src/RSymbol.cpp.o" "gcc" "CMakeFiles/AutoDiff.dir/src/RSymbol.cpp.o.d"
+  "/home/ddamiana/Documents/CodeProjects/Cpp/AutoDiff/src/Symbol.cpp" "CMakeFiles/AutoDiff.dir/src/Symbol.cpp.o" "gcc" "CMakeFiles/AutoDiff.dir/src/Symbol.cpp.o.d"
   )
 
 # Targets to which this target links.

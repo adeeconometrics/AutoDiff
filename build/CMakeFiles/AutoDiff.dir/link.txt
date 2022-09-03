@@ -1,1 +1,1 @@
-/usr/bin/c++  -Wall -Wextra -Werror -pedantic -std=c++2a   CMakeFiles/AutoDiff.dir/src/Main.cpp.o CMakeFiles/AutoDiff.dir/src/Symbol.cpp.o  -o AutoDiff 
+/usr/bin/c++ -Wall -Wextra -Werror -pedantic -std=c++2a CMakeFiles/AutoDiff.dir/src/FSymbol.cpp.o CMakeFiles/AutoDiff.dir/src/Main.cpp.o CMakeFiles/AutoDiff.dir/src/RSymbol.cpp.o CMakeFiles/AutoDiff.dir/src/Symbol.cpp.o -o AutoDiff 
