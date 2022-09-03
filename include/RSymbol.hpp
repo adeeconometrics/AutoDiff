@@ -4,29 +4,30 @@
  * @brief contains methods for reverse_mode AD
  * @version 0.1
  * @date 2022-06-13
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
 
 #ifndef __RSYMBOL_H__
 #define __RSYMBOL_H__
 
-#include "Function.h"
-#include "Utilities.h"
+#include "Function.hpp"
+#include "Utilities.hpp"
 
-#include <map>
 #include <cmath>
 #include <concepts>
+#include <map>
 #include <type_traits>
 
-namespace ad{
+namespace ad {
 template <typename T>
-requires OrderedRealVector<T> || std::is_floating_point<T>::value
-class RSymbol {
+requires OrderedRealVector<T> ||
+    std::is_floating_point<T>::value class RSymbol {
 private:
-	std::map<RSymbol, T> m_local_gradient;
-	T m_value{};
+  std::map<RSymbol, T> m_local_gradient;
+  T m_value{};
+
 public:
   RSymbol(const std::map<RSymbol<T>, T> &_local_gradient, const T &_value)
       : m_local_gradient(_local_gradient), m_value(_value) {}
@@ -58,105 +59,103 @@ public:
 
 // functions are problematic for vectorized input
 
-template<typename T>
-requires OrderedRealVector <T> || std::is_floating_point_v<T>
-auto operator+(const RSymbol<T>& lhs, const RSymbol<T>& rhs) -> RSymbol<T> {
+template <typename T>
+requires OrderedRealVector<T> || std::is_floating_point_v<T>
+auto operator+(const RSymbol<T> &lhs, const RSymbol<T> &rhs) -> RSymbol<T> {
   return {{{lhs, 1.0}, {rhs, 1.0}}, lhs.value() + rhs.value()};
 }
 
-template<typename T>
-requires OrderedRealVector <T> || std::is_floating_point_v<T>
-auto operator-(const RSymbol<T>& lhs, const RSymbol<T>& rhs) -> RSymbol<T> {
+template <typename T>
+requires OrderedRealVector<T> || std::is_floating_point_v<T>
+auto operator-(const RSymbol<T> &lhs, const RSymbol<T> &rhs) -> RSymbol<T> {
   {{{lhs, 1.0}, {rhs, -1.0}}, lhs.value() - rhs.value()};
 }
 
-template<typename T>
-requires OrderedRealVector <T> || std::is_floating_point_v<T>
-auto operator*(const RSymbol<T>& lhs, const RSymbol<T>& rhs) -> RSymbol<T>{
+template <typename T>
+requires OrderedRealVector<T> || std::is_floating_point_v<T>
+auto operator*(const RSymbol<T> &lhs, const RSymbol<T> &rhs) -> RSymbol<T> {
   {{{lhs, rhs.value()}, {rhs, lhs.value()}}, lhs.value() * rhs.value()};
 }
 
-template<typename T>
-requires OrderedRealVector <T> || std::is_floating_point_v<T>
-auto operator/(const RSymbol<T>& lhs, const RSymbol<T>& rhs) -> RSymbol<T> {
-  const Symbol inverse{{{rhs, -1.0 / pow(rhs.value(), 2)}},
-                       1.0 / rhs.value()};
+template <typename T>
+requires OrderedRealVector<T> || std::is_floating_point_v<T>
+auto operator/(const RSymbol<T> &lhs, const RSymbol<T> &rhs) -> RSymbol<T> {
+  const Symbol inverse{{{rhs, -1.0 / pow(rhs.value(), 2)}}, 1.0 / rhs.value()};
   return lhs * inverse;
 }
 
-template<typename T>
-requires OrderedRealVector <T> || std::is_floating_point_v<T>
-auto pow(const RSymbol<T>& lhs, const RSymbol<T>& rhs) -> RSymbol<T> {
+template <typename T>
+requires OrderedRealVector<T> || std::is_floating_point_v<T>
+auto pow(const RSymbol<T> &lhs, const RSymbol<T> &rhs) -> RSymbol<T> {
   const auto df_base =
       exponent.value() * pow(base.value(), exponent.value() - 1);
-  const auto df_exp =
-      pow(base.value(), exponent.value()) * log(base.value());
+  const auto df_exp = pow(base.value(), exponent.value()) * log(base.value());
 
   return {{{base, df_base}, {exponent, df_exp}},
           pow(base.value(), exponent.value())};
 }
 
-template<typename T>
-requires OrderedRealVector <T> || std::is_floating_point_v<T> 
-auto exp(const RSymbol<T>& rhs) noexcept -> RSymbol<T> {
+template <typename T>
+requires OrderedRealVector<T> || std::is_floating_point_v<T>
+auto exp(const RSymbol<T> &rhs) noexcept -> RSymbol<T> {
   const auto value = exp(rhs.value());
   const auto df_rhs = value;
 
   return {{{rhs, df_rhs}}, value};
 }
 
-template<typename T>
-requires OrderedRealVector <T> || std::is_floating_point_v<T>;
-auto ln(const RSymbol<T>& rhs) noexcept -> RSymbol<T>{
+template <typename T>
+requires OrderedRealVector<T> || std::is_floating_point_v<T>;
+auto ln(const RSymbol<T> &rhs) noexcept -> RSymbol<T> {
   const auto value = log(rhs.value());
   const auto df_rhs = 1.0 / rhs.value();
 
   return {{{rhs, df_rhs}}, value};
 }
 
-template<typename T>
-requires OrderedRealVector <T> || std::is_floating_point_v<T>
-auto sin(const RSymbol<T>& rhs) noexcept -> RSymbol<T> {
-	const auto value = sin(rhs.value());
-	const auto df_rhs = cos(rhs.value());
-	return {{{rhs, df_rhs}}, value};
+template <typename T>
+requires OrderedRealVector<T> || std::is_floating_point_v<T>
+auto sin(const RSymbol<T> &rhs) noexcept -> RSymbol<T> {
+  const auto value = sin(rhs.value());
+  const auto df_rhs = cos(rhs.value());
+  return {{{rhs, df_rhs}}, value};
 }
 
-template<typename T>
-requires OrderedRealVector <T> || std::is_floating_point_v<T>
-auto cos(const RSymbol<T>& rhs) noexcept -> RSymbol<T> {
+template <typename T>
+requires OrderedRealVector<T> || std::is_floating_point_v<T>
+auto cos(const RSymbol<T> &rhs) noexcept -> RSymbol<T> {
   const auto value = cos(rhs.value());
-  const auto df_rhs = -1*sin(rhs.value());
+  const auto df_rhs = -1 * sin(rhs.value());
   return {{{rhs, df_rhs}}, value};
 }
 
-template<typename T>
-requires OrderedRealVector <T> || std::is_floating_point_v<T>
-auto tan(const RSymbol<T>& rhs) noexcept -> RSymbol<T> {
+template <typename T>
+requires OrderedRealVector<T> || std::is_floating_point_v<T>
+auto tan(const RSymbol<T> &rhs) noexcept -> RSymbol<T> {
   const auto value = tan(rhs.value());
-  const auto df_rhs = 1/pow(cos(rhs.value()), 2);
+  const auto df_rhs = 1 / pow(cos(rhs.value()), 2);
   return {{{rhs, df_rhs}}, value};
 }
 
-template<typename T>
-requires OrderedRealVector <T> || std::is_floating_point_v<T>
-auto cot(const RSymbol<T>& rhs) noexcept -> RSymbol<T> {
-  const auto value = 1/tan(rhs.value());
+template <typename T>
+requires OrderedRealVector<T> || std::is_floating_point_v<T>
+auto cot(const RSymbol<T> &rhs) noexcept -> RSymbol<T> {
+  const auto value = 1 / tan(rhs.value());
   const auto df_rhs = -1 / pow(sin(rhs.value()), 2);
   return {{{rhs, df_rhs}}, value};
 }
 
-template<typename T>
-requires OrderedRealVector <T> || std::is_floating_point_v<T>
-auto sec(const RSymbol<T>& rhs) noexcept -> RSymbol<T> {
+template <typename T>
+requires OrderedRealVector<T> || std::is_floating_point_v<T>
+auto sec(const RSymbol<T> &rhs) noexcept -> RSymbol<T> {
   const auto value = 1.0 / cos(rhs.value());
   const auto df_rhs = value * tan(rhs.value());
   return {{{rhs, df_rhs}}, value};
 }
 
-template<typename T>
-requires OrderedRealVector <T> || std::is_floating_point_v<T>
-auto csc(const RSymbol<T>& rhs) noexcept -> RSymbol<T> {
+template <typename T>
+requires OrderedRealVector<T> || std::is_floating_point_v<T>
+auto csc(const RSymbol<T> &rhs) noexcept -> RSymbol<T> {
   const auto value = 1.0 / sin(rhs.value());
   const auto df_rhs = value * (-1.0 / tan(rhs.value()));
   return {{{rhs, df_rhs}}, value};
@@ -221,7 +220,7 @@ auto csc(const RSymbol<T>& rhs) noexcept -> RSymbol<T> {
 
 template <typename T>
 requires OrderedRealVector<T> || std::is_floating_point_v<T>
-auto gradient(const RSymbol<T>&) -> std::map<RSymbol, T> {
+auto gradient(const RSymbol<T> &) -> std::map<RSymbol, T> {
   std::map<RSymbol, T> _gradients{};
 
   std::function<auto(const RSymbol &, double)->void> _compute_gradient =
@@ -243,7 +242,6 @@ auto gradient(const RSymbol<T>&) -> std::map<RSymbol, T> {
   return _gradients;
 }
 
-}
-
+} // namespace ad
 
 #endif // __RSYMBOL_H__

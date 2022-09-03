@@ -12,7 +12,7 @@
 #ifndef __FUNCTION_H__
 #define __FUNCTION_H__
 
-#include "Utils.h"
+#include "Utils.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -32,7 +32,7 @@ namespace ad {
 template <typename T>
 requires AbstractNumericVector<T>
 auto operator+(const T &t1, const T &t1) -> T {
-  T result;
+  T result{};
   std::transform(t1.cbegin(), t1.cend(), t2.cbegin(),
                  std::back_inserter(result), std::plus<>());
   return result;
@@ -41,7 +41,7 @@ auto operator+(const T &t1, const T &t1) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto operator-(const T &t1, const T &t1) -> T {
-  T result;
+  T result{};
   std::transform(t1.cbegin(), t1.cend(), t2.cbegin(),
                  std::back_inserter(result), std::minus<>());
   return result;
@@ -50,7 +50,7 @@ auto operator-(const T &t1, const T &t1) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto operator*(const T &t1, const T &t1) -> T {
-  T result;
+  T result{};
   std::transform(t1.cbegin(), t1.cend(), t2.cbegin(),
                  std::back_inserter(result), std::multiplies<>());
   return result;
@@ -59,7 +59,7 @@ auto operator*(const T &t1, const T &t1) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto operator/(const T &t1, const T &t1) -> T {
-  T result;
+  T result{};
   std::transform(t1.cbegin(), t1.cend(), t2.cbegin(),
                  std::back_inserter(result), std::divides<>());
   return result;
@@ -68,7 +68,7 @@ auto operator/(const T &t1, const T &t1) -> T {
 template <typename T, typename U>
 requires AbstractNumericVector<T> && IsNumber<U>
 auto operator+(const T &t, U u) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(i + u); });
   return result;
@@ -77,7 +77,7 @@ auto operator+(const T &t, U u) -> T {
 template <typename T, typename U>
 requires AbstractNumericVector<T> && IsNumber<U>
 auto operator-(const T &t, U u) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(i - u); });
   return result;
@@ -86,7 +86,7 @@ auto operator-(const T &t, U u) -> T {
 template <typename T, typename U>
 requires AbstractNumericVector<T> && IsNumber<U>
 auto operator*(const T &t, U u) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(i * u); });
   return result;
@@ -95,7 +95,7 @@ auto operator*(const T &t, U u) -> T {
 template <typename T, typename U>
 requires AbstractNumericVector<T> && IsNumber<U>
 auto operator/(const T &t, U u) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(i / u); });
   return result;
@@ -120,7 +120,7 @@ auto operator/(U u, const T &t) -> T { return t / u; }
 template <typename T>
 requires AbstractNumericVector<T>
 auto abs(const T &rhs) -> T {
-  T result;
+  T result{};
   std::for_each(rhs.cbegin(), rhs.cend(), [&result](const auto i) -> void {
     result.push_back(std::abs(i));
   });
@@ -131,7 +131,7 @@ auto abs(const T &rhs) -> T {
 template <typename T, typename U>
 requires AbstractNumericVector<T> && IsNumber<U>
 auto pow(const T &base, U exp) -> T {
-  T result;
+  T result{};
   std::for_each(base.cbegin(), base.cend(), [&exp, &result](auto i) -> void {
     result.push_back(std::pow(i, exp));
   });
@@ -141,7 +141,7 @@ auto pow(const T &base, U exp) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto sqrt(const T &rhs) -> T {
-  T result;
+  T result{};
   std::for_each(rhs.cbegin(), rhs.cend(), [&result](const auto i) -> void {
     result.push_back(std::sqrt(i));
   });
@@ -151,7 +151,7 @@ auto sqrt(const T &rhs) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto ln(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(std::log(i)); });
   return result;
@@ -160,7 +160,7 @@ auto ln(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto exp(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(std::exp(i)); });
   return result;
@@ -169,7 +169,7 @@ auto exp(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto sin(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(std::sin(i)); });
   return result;
@@ -178,7 +178,7 @@ auto sin(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto cos(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(std::cos(i)); });
   return result;
@@ -187,7 +187,7 @@ auto cos(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto tan(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(std::tan(i)); });
   return result;
@@ -196,7 +196,7 @@ auto tan(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto cot(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(), [&result](auto i) -> void {
     result.push_back(1 / std::tan(i));
   });
@@ -206,7 +206,7 @@ auto cot(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto sec(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(), [&result](auto i) -> void {
     result.push_back(1 / std::cos(i));
   });
@@ -216,7 +216,7 @@ auto sec(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto csc(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(), [&result](auto i) -> void {
     result.push_back(1 / std::sin(i));
   });
@@ -226,7 +226,7 @@ auto csc(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto sinh(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(std::sinh(i)); });
   return result;
@@ -235,7 +235,7 @@ auto sinh(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto cosh(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(std::cosh(i)); });
   return result;
@@ -244,7 +244,7 @@ auto cosh(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto tanh(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(std::tanh(i)); });
   return result;
@@ -253,7 +253,7 @@ auto tanh(const T &t) -> T {
 // template <typename T>
 // requires AbstractNumericVector<T>
 // auto coth(const T &t) -> T {
-//   T result;
+//   T result{};
 //   std::for_each(t.cbegin(), t.cend(), [&result](auto i) -> void {
 //     result.push_back(1.0 / std::tanh(i));
 //   });
@@ -263,7 +263,7 @@ auto tanh(const T &t) -> T {
 // template <typename T>
 // requires AbstractNumericVector<T>
 // auto sech(const T &t) -> T {
-//   T result;
+//   T result{};
 //   std::for_each(t.cbegin(), t.cend(), [&result](auto i) -> void {
 //     result.push_back(1.0 / std::cosh(i));
 //   });
@@ -273,7 +273,7 @@ auto tanh(const T &t) -> T {
 // template <typename T>
 // requires AbstractNumericVector<T>
 // auto csch(const T &t) -> T {
-//   T result;
+//   T result{};
 //   std::for_each(t.cbegin(), t.cend(), [&result](auto i) -> void {
 //     result.push_back(1.0 / std::sinh(i));
 //   });
@@ -283,7 +283,7 @@ auto tanh(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto asin(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(std::asin(i)); });
   return result;
@@ -292,7 +292,7 @@ auto asin(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto acos(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(std::acos(i)); });
   return result;
@@ -301,7 +301,7 @@ auto acos(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto atan(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(std::atan(i)); });
   return result;
@@ -310,7 +310,7 @@ auto atan(const T &t) -> T {
 // template <typename T>
 // requires AbstractNumericVector<T>
 // auto acot(const T &t) -> T {
-//   T result;
+//   T result{};
 //   std::for_each(t.cbegin(), t.cend(), [&result](auto i) -> void {
 //     result.push_back(1.0 / std::atan(i));
 //   });
@@ -320,7 +320,7 @@ auto atan(const T &t) -> T {
 // template <typename T>
 // requires AbstractNumericVector<T>
 // auto asec(const T &t) -> T {
-//   T result;
+//   T result{};
 //   std::for_each(t.cbegin(), t.cend(), [&result](auto i) -> void {
 //     result.push_back(1.0 / std::acos(i));
 //   });
@@ -330,7 +330,7 @@ auto atan(const T &t) -> T {
 // template <typename T>
 // requires AbstractNumericVector<T>
 // auto acsc(const T &t) -> T {
-//   T result;
+//   T result{};
 //   std::for_each(t.cbegin(), t.cend(), [&result](auto i) -> void {
 //     result.push_back(1.0 / std::asin(i));
 //   });
@@ -340,7 +340,7 @@ auto atan(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto asinh(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(std::asinh(i)); });
   return result;
@@ -349,7 +349,7 @@ auto asinh(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto acosh(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(std::acosh(i)); });
   return result;
@@ -358,7 +358,7 @@ auto acosh(const T &t) -> T {
 template <typename T>
 requires AbstractNumericVector<T>
 auto atanh(const T &t) -> T {
-  T result;
+  T result{};
   std::for_each(t.cbegin(), t.cend(),
                 [&result](auto i) -> void { result.push_back(std::atanh(i)); });
   return result;
@@ -367,7 +367,7 @@ auto atanh(const T &t) -> T {
 // template <typename T>
 // requires AbstractNumericVector<T>
 // auto acoth(const T &t) -> T {
-//   T result;
+//   T result{};
 //   std::for_each(t.cbegin(), t.cend(), [&result](auto i) -> void {
 //     result.push_back(1.0 / std::atanh(i));
 //   });
@@ -377,7 +377,7 @@ auto atanh(const T &t) -> T {
 // template <typename T>
 // requires AbstractNumericVector<T>
 // auto asech(const T &t) -> T {
-//   T result;
+//   T result{};
 //   std::for_each(t.cbegin(), t.cend(), [&result](auto i) -> void {
 //     result.push_back(1.0 / std::acosh(i));
 //   });
@@ -387,7 +387,7 @@ auto atanh(const T &t) -> T {
 // template <typename T>
 // requires AbstractNumericVector<T>
 // auto acsch(const T &t) -> T {
-//   T result;
+//   T result{};
 //   std::for_each(t.cbegin(), t.cend(), [&result](auto i) -> void {
 //     result.push_back(1.0 / std::asinh(i));
 //   });

@@ -12,8 +12,8 @@
 #ifndef __FSYMBOL_H__
 #define __FSYMBOL_H__
 
-#include "Function.h"
-#include "Utils.h"
+#include "Function.hpp"
+#include "Utils.hpp"
 
 #include <cmath>
 #include <concepts>
