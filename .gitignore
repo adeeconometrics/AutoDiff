@@ -1,1 +1,6 @@
+lib/
 build/
+docs/
+bin/
+*/**.o
+*.**.exe

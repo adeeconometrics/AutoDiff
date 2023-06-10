@@ -1,10 +1,19 @@
 # AutoDiff
 
+This project contains a generic implementation of automatic differentiation
+from scratch. The intention of this repo is to serve as an avenue to explore
+the foundations of Neural Networks. This repo contains reverse and forward
+mode differentiation.
 
-Implementation of Auto Differentiation from Scratch
+Note that this project is configured on cpp20 compiler.
+
+---
 
 Todo:
-- [ ] Add Google Test 
+
+- [ ] Configure workflow
+- [ ] Add testing and build for debug in CMake
+- [ ] Add Google Test
 - [ ] Add vectorized functions for SIMD(OpenMP)
 - [ ] Restructure files
 - [ ] Add Docker container
