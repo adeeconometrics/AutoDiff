@@ -7,7 +7,7 @@ namespace ad {
 
 struct RSym {
 public:
-  RSym(const std::map<RSym, double> &t_sym, double t_num);
+  RSym(const std::map<RSym, double> &t_loc_grad, double t_value);
   RSym(double t_num);
 
   auto value() const noexcept -> double;
@@ -24,6 +24,11 @@ private:
 };
 
 auto operator+(const RSym &lhs, const RSym &rhs) -> RSym;
+auto operator-(const RSym &lhs, const RSym &rhs) -> RSym;
+auto operator*(const RSym &lhs, const RSym &rhs) -> RSym;
+auto operator/(const RSym &lhs, const RSym &rhs) -> RSym;
+
+auto gradient(const RSym &other) -> std::map<RSym, double>;
 
 }; // namespace ad
 

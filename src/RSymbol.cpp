@@ -1,5 +1,6 @@
 #include "../include/rsymbol.hpp"
 
+#include <cmath>
 #include <functional>
 #include <map>
 #include <type_traits>
