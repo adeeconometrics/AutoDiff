@@ -6,9 +6,9 @@
 #include <type_traits>
 #include <vector>
 
-using std::vector;
-
 namespace ad {
+
+using std::vector;
 
 template <typename T>
 constexpr auto operator==(const vector<T> &lhs, const vector<T> &rhs) -> bool {

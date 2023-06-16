@@ -8,7 +8,7 @@ namespace ad {
 struct RSym {
 public:
   RSym(const std::map<RSym, double> &t_loc_grad, double t_value);
-  RSym(double t_num);
+  RSym(double t_value);
 
   auto value() const noexcept -> double;
   auto local_gradient() const noexcept -> std::map<RSym, double>;
