@@ -1,5 +1,9 @@
 # AutoDiff
 
+<p align="center">
+  <img src="img/AutoDiffLogo.png" alt="Image">
+</p>
+
 This project contains a generic implementation of automatic differentiation
 from scratch. The intention of this repo is to serve as an avenue to explore
 the foundations of Neural Networks. This repo contains reverse and forward
