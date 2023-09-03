@@ -10,15 +10,3 @@ the foundations of Neural Networks. This repo contains reverse and forward
 mode differentiation.
 
 Note that this project is configured on cpp20 compiler.
-
----
-
-Todo:
-
-- [ ] Configure workflow
-- [ ] Add testing and build for debug in CMake
-- [ ] Add Google Test
-- [ ] Add vectorized functions for SIMD(OpenMP)
-- [ ] Restructure files
-- [ ] Add Docker container
-- [ ] Add Documentation
