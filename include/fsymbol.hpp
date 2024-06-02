@@ -6,6 +6,15 @@
 
 namespace ad {
 
+/**
+ * @brief Represents the forward mode operator for autodifferentiation. Note to
+ * find partial derivative of a multivariable function, we need to seed the
+ * `t_dot` value with 1.0 to express this e.g. df(x,y)/dx => FSym(x, 1.0),
+ * df(x,y)/dy => FSym(y, 1.0).
+ *
+ * @tparam T
+ * @tparam std::enable_if_t<std::is_floating_point_v<T>>
+ */
 template <typename T,
           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
 struct FSym {
