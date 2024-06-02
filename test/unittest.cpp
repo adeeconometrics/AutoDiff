@@ -50,14 +50,17 @@ TEST(FSymbol, DivScalar) {
   EXPECT_DOUBLE_EQ(c.dot(), 1 / 0.5);
 }
 
-TEST(FSymbol, Pow) {
+TEST(FSymbol, PowScalar) {
   ad::FSym<double> a{2.0, 1.0};
   ad::FSym<double> b{3.0, 0.0};
 
-  auto c = pow(a, 3.);
+  auto ca = pow(a, 3.);
+  auto cb = pow(b, 4.);
 
-  EXPECT_DOUBLE_EQ(c.value(), 8.0);
-  EXPECT_DOUBLE_EQ(c.dot(), 3 * std::pow(2, 3 - 1));
+  EXPECT_DOUBLE_EQ(ca.value(), 8.0);
+  EXPECT_DOUBLE_EQ(cb.value(), std::pow(3, 4));
+  EXPECT_DOUBLE_EQ(ca.dot(), 3 * std::pow(2, 3 - 1));
+  EXPECT_DOUBLE_EQ(cb.dot(), 4 * std::pow(3, 4 - 1));
 }
 
 TEST(RSymbol, AddScalar) {
