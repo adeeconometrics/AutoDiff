@@ -1,9 +1,10 @@
 #include <gtest/gtest.h>
 
+#include "../include/forwardops.hpp"
 #include "../include/fsymbol.hpp"
 #include "../include/rsymbol.hpp"
 
-#include <map>
+#include <cmath>
 /**
  * @brief Include testing for partial derivatives of FSym
  *
@@ -47,6 +48,16 @@ TEST(FSymbol, DivScalar) {
 
   EXPECT_DOUBLE_EQ(c.value(), 2.2);
   EXPECT_DOUBLE_EQ(c.dot(), 1 / 0.5);
+}
+
+TEST(FSymbol, Pow) {
+  ad::FSym<double> a{2.0, 1.0};
+  ad::FSym<double> b{3.0, 0.0};
+
+  auto c = pow(a, 3.);
+
+  EXPECT_DOUBLE_EQ(c.value(), 8.0);
+  EXPECT_DOUBLE_EQ(c.dot(), 3 * std::pow(2, 3 - 1));
 }
 
 TEST(RSymbol, AddScalar) {

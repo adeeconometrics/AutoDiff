@@ -19,7 +19,7 @@ constexpr auto pow(const FSym<T> &base, const FSym<T> &exp) -> FSym<T> {
 template <typename T,
           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
 auto pow(const FSym<T> &base, T exp) -> FSym<T> {
-  const T df_base = base.dot() * std::pow(base.value(), exp - 1);
+  const T df_base = exp * std::pow(base.value(), exp - 1);
   return {std::pow(base.value(), exp), df_base};
 }
 
