@@ -63,4 +63,12 @@ constexpr auto tan(const FSym<T> &rhs) noexcept -> FSym<T> {
   return {value, df};
 }
 
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto cot(const FSym<T> &rhs) noexcept -> FSym<T> {
+  const T value = 1.0f / std::tan(rhs.value());
+  const T df = -(1.0f / std::pow(std::sin(rhs.value()), 2)) * rhs.dot();
+  return {value, df};
+}
+
 #endif // __FORWARDOPS_H__
