@@ -3,7 +3,6 @@
 #include <cmath>
 #include <functional>
 #include <map>
-#include <type_traits>
 
 namespace ad {
 
