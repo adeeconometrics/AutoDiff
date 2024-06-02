@@ -81,6 +81,15 @@ TEST(FSymbol, LnScalar) {
   EXPECT_DOUBLE_EQ(c.dot(), 1.0 / 3.0);
 }
 
+TEST(FSymbol, SinScalar) {
+  ad::FSym<double> a{M_PI / 2, 1.0}; // should include multivariate tests
+
+  auto c = sin(a);
+
+  EXPECT_DOUBLE_EQ(c.value(), std::sin(M_PI / 2));
+  EXPECT_DOUBLE_EQ(c.dot(), std::cos(M_PI / 2));
+}
+
 TEST(RSymbol, AddScalar) {
   ad::RSym a{1.1};
   ad::RSym b{0.5};
