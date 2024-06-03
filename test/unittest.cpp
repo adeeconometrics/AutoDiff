@@ -117,6 +117,25 @@ TEST(FSymbol, CotScalar) {
   EXPECT_DOUBLE_EQ(c.dot(), -1.0 / std::pow(std::sin(M_PI / 4), 2));
 }
 
+TEST(FSymbol, SecScalar) {
+  ad::FSym<double> a{M_PI / 4, 1.0}; // should include multivariate tests
+
+  auto c = sec(a);
+
+  EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::cos(M_PI / 4));
+  EXPECT_DOUBLE_EQ(c.dot(), std::tan(M_PI / 4) / std::cos(M_PI / 4));
+}
+
+TEST(FSymbol, CscScalar) {
+  ad::FSym<double> a{M_PI / 4, 1.0}; // should include multivariate tests
+
+  auto c = csc(a);
+
+  EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::sin(M_PI / 4));
+  EXPECT_DOUBLE_EQ(c.dot(),
+                   -std::cos(M_PI / 4) / std::pow(std::sin(M_PI / 4), 2));
+}
+
 TEST(RSymbol, AddScalar) {
   ad::RSym a{1.1};
   ad::RSym b{0.5};
