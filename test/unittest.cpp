@@ -242,3 +242,14 @@ TEST(RSymbol, LnScalar) {
   EXPECT_DOUBLE_EQ(c.value(), std::log(3.0));
   EXPECT_DOUBLE_EQ(df_c.at(a), 1.0 / 3.0);
 }
+
+TEST(RSymbol, SinScalar) {
+  ad::RSym a{M_PI / 2}; // should include multivariate tests
+
+  auto c = sin(a);
+
+  const auto df_c = ad::gradient(c);
+
+  EXPECT_DOUBLE_EQ(c.value(), std::sin(M_PI / 2));
+  EXPECT_DOUBLE_EQ(df_c.at(a), std::cos(M_PI / 2));
+}
