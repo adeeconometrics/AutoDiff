@@ -430,3 +430,14 @@ TEST(RSymbol, CschScalar) {
   EXPECT_DOUBLE_EQ(df_c.at(a),
                    -1.0 / std::tanh(M_PI / 4) / std::sinh(M_PI / 4));
 }
+
+TEST(RSymbol, AsinScalar) {
+  ad::RSym a{0.5}; // should include multivariate tests
+
+  auto c = asin(a);
+
+  const auto df_c = ad::gradient(c);
+
+  EXPECT_DOUBLE_EQ(c.value(), std::asin(0.5));
+  EXPECT_DOUBLE_EQ(df_c.at(a), 1.0 / std::sqrt(1 - std::pow(0.5, 2)));
+}
