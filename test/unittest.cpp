@@ -146,6 +146,15 @@ TEST(FSymbol, SinhScalar) {
   EXPECT_DOUBLE_EQ(c.dot(), std::cosh(M_PI / 4));
 }
 
+TEST(FSymbol, CoshScalar) {
+  ad::FSym<double> a{M_PI / 4, 1.0}; // should include multivariate tests
+
+  auto c = cosh(a);
+
+  EXPECT_DOUBLE_EQ(c.value(), std::cosh(M_PI / 4));
+  EXPECT_DOUBLE_EQ(c.dot(), -std::sinh(M_PI / 4));
+}
+
 TEST(RSymbol, AddScalar) {
   ad::RSym a{1.1};
   ad::RSym b{0.5};

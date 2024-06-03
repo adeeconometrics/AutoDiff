@@ -95,13 +95,13 @@ constexpr auto sinh(const FSym<T> &rhs) noexcept -> FSym<T> {
   return {value, df};
 }
 
-// template <typename T,
-//           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
-// constexpr auto cosh(const FSym<T> &rhs) noexcept -> FSym<T> {
-//   const T value = std::cosh(rhs.value());
-//   const T df = -std::sinh(rhs.value()) * rhs.dot();
-//   return {value, df};
-// }
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto cosh(const FSym<T> &rhs) noexcept -> FSym<T> {
+  const T value = std::cosh(rhs.value());
+  const T df = -std::sinh(rhs.value()) * rhs.dot();
+  return {value, df};
+}
 
 // template <typename T,
 //           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
