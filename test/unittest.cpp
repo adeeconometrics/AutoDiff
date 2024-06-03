@@ -137,6 +137,15 @@ TEST(FSymbol, CscScalar) {
                    -std::cos(M_PI / 4) / std::pow(std::sin(M_PI / 4), 2));
 }
 
+TEST(FSymbol, SinhScalar) {
+  ad::FSym<double> a{M_PI / 4, 1.0}; // should include multivariate tests
+
+  auto c = sinh(a);
+
+  EXPECT_DOUBLE_EQ(c.value(), std::sinh(M_PI / 4));
+  EXPECT_DOUBLE_EQ(c.dot(), std::cosh(M_PI / 4));
+}
+
 TEST(RSymbol, AddScalar) {
   ad::RSym a{1.1};
   ad::RSym b{0.5};
