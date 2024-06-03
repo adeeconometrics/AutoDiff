@@ -164,6 +164,15 @@ TEST(FSymbol, TanhScalar) {
   EXPECT_DOUBLE_EQ(c.dot(), 1.0 / std::pow(std::cosh(M_PI / 4), 2));
 }
 
+TEST(FSymbol, CothScalar) {
+  ad::FSym<double> a{M_PI / 4, 1.0}; // should include multivariate tests
+
+  auto c = coth(a);
+
+  EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::tanh(M_PI / 4));
+  EXPECT_DOUBLE_EQ(c.dot(), -1.0 / std::pow(std::sinh(M_PI / 4), 2));
+}
+
 TEST(RSymbol, AddScalar) {
   ad::RSym a{1.1};
   ad::RSym b{0.5};
