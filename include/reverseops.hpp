@@ -174,21 +174,21 @@ constexpr auto acot(const RSym<T> &rhs) noexcept -> RSym<T> {
   return {{{rhs, df_rhs}}, value};
 }
 
-// template <typename T,
-//           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
-// constexpr auto asec(const RSym<T> &rhs) noexcept -> RSym<T> {
-//   const T value = 1.0 / std::acos(rhs.value());
-//   const T df_rhs = 1.0 / (std::pow(rhs.value(), 2) *
-//                           std::sqrt(1 - 1.0 / std::pow(rhs.value(), 2)));
-//   return {{{rhs, df_rhs}}, value};
-// }
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto asec(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = 1.0 / std::acos(rhs.value());
+  const T df_rhs =
+      1.0 / (std::abs(rhs.value()) * std::sqrt(std::pow(rhs.value(), 2)) - 1);
+  return {{{rhs, df_rhs}}, value};
+}
 
-// template <typename T,
-//           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
-// constexpr auto acsc(const RSym<T> &rhs) noexcept -> RSym<T> {
-//   const T value = 1.0 / std::asin(rhs.value());
-//   const T df_rhs = 1.0 / (std::pow(rhs.value(), 2) *
-//                           std::sqrt(1 - 1.0 / std::pow(rhs.value(), 2)));
-//   return {{{rhs, df_rhs}}, value};
-// }
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto acsc(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = 1.0 / std::asin(rhs.value());
+  const T df_rhs =
+      -1.0 / (std::sqrt(1 - std::pow(rhs.value(), 2)) * std::abs(rhs.value()));
+  return {{{rhs, df_rhs}}, value};
+}
 #endif // __REVERSEOPS_H__

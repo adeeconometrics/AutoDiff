@@ -474,3 +474,27 @@ TEST(RSymbol, AcotScalar) {
   EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::atan(0.5));
   EXPECT_DOUBLE_EQ(df_c.at(a), -1.0 / (1 + std::pow(.5, 2)));
 }
+// WARNING: Domain error should be handled in the future
+TEST(RSymbol, AsecScalar) {
+  ad::RSym a{0.5}; // should include multivariate tests
+
+  auto c = asec(a);
+
+  const auto df_c = ad::gradient(c);
+
+  EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::acos(0.5));
+  EXPECT_DOUBLE_EQ(df_c.at(a),
+                   1.0 / (std::abs(0.5) * std::sqrt(std::pow(0.5, 2) - 1)));
+}
+// WARNING: Domain error should be handled in the future
+TEST(RSymbol, AcscScalar) {
+  ad::RSym a{0.5}; // should include multivariate tests
+
+  auto c = acsc(a);
+
+  const auto df_c = ad::gradient(c);
+
+  EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::asin(0.5));
+  EXPECT_DOUBLE_EQ(df_c.at(a),
+                   -1.0 / (std::sqrt(1 - std::pow(0.5, 2)) * std::abs(0.5)));
+}
