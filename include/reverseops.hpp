@@ -191,4 +191,55 @@ constexpr auto acsc(const RSym<T> &rhs) noexcept -> RSym<T> {
       -1.0 / (std::sqrt(1 - std::pow(rhs.value(), 2)) * std::abs(rhs.value()));
   return {{{rhs, df_rhs}}, value};
 }
+
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto asinh(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = std::asinh(rhs.value());
+  const T df_rhs = 1.0 / std::sqrt(std::pow(rhs.value(), 2) + 1);
+  return {{{rhs, df_rhs}}, value};
+}
+
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto acosh(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = std::acosh(rhs.value());
+  const T df_rhs = 1.0 / std::sqrt(std::pow(rhs.value(), 2) - 1);
+  return {{{rhs, df_rhs}}, value};
+}
+
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto atanh(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = std::atanh(rhs.value());
+  const T df_rhs = 1.0 / (1 - std::pow(rhs.value(), 2));
+  return {{{rhs, df_rhs}}, value};
+}
+
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto acoth(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = 1.0 / std::atanh(rhs.value());
+  const T df_rhs = -1.0 / (1 - std::pow(rhs.value(), 2));
+  return {{{rhs, df_rhs}}, value};
+}
+
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto asech(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = 1.0 / std::acosh(rhs.value());
+  const T df_rhs =
+      -1.0 / (rhs.value() * std::sqrt(1 - std::pow(rhs.value(), 2)));
+  return {{{rhs, df_rhs}}, value};
+}
+
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto acsch(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = 1.0 / std::asinh(rhs.value());
+  const T df_rhs =
+      -1.0 / (std::abs(rhs.value()) * std::sqrt(1 + std::pow(rhs.value(), 2)));
+  return {{{rhs, df_rhs}}, value};
+}
+
 #endif // __REVERSEOPS_H__

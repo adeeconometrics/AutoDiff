@@ -498,3 +498,69 @@ TEST(RSymbol, AcscScalar) {
   EXPECT_DOUBLE_EQ(df_c.at(a),
                    -1.0 / (std::sqrt(1 - std::pow(0.5, 2)) * std::abs(0.5)));
 }
+
+TEST(RSymbol, AsinhScalar) {
+  ad::RSym a{0.5}; // should include multivariate tests
+
+  auto c = asinh(a);
+
+  const auto df_c = ad::gradient(c);
+
+  EXPECT_DOUBLE_EQ(c.value(), std::asinh(0.5));
+  EXPECT_DOUBLE_EQ(df_c.at(a), 1.0 / std::sqrt(std::pow(0.5, 2) + 1));
+}
+
+TEST(RSymbol, AcoshScalar) {
+  ad::RSym a{1.5}; // should include multivariate tests
+
+  auto c = acosh(a);
+
+  const auto df_c = ad::gradient(c);
+
+  EXPECT_DOUBLE_EQ(c.value(), std::acosh(1.5));
+  EXPECT_DOUBLE_EQ(df_c.at(a), 1.0 / std::sqrt(std::pow(1.5, 2) - 1));
+}
+
+TEST(RSymbol, AtanhScalar) {
+  ad::RSym a{0.5}; // should include multivariate tests
+
+  auto c = atanh(a);
+
+  const auto df_c = ad::gradient(c);
+
+  EXPECT_DOUBLE_EQ(c.value(), std::atanh(0.5));
+  EXPECT_DOUBLE_EQ(df_c.at(a), 1.0 / (1 - std::pow(0.5, 2)));
+}
+
+TEST(RSymbol, AcothScalar) {
+  ad::RSym a{0.5}; // should include multivariate tests
+
+  auto c = acoth(a);
+
+  const auto df_c = ad::gradient(c);
+
+  EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::atanh(0.5));
+  EXPECT_DOUBLE_EQ(df_c.at(a), -1.0 / (1 - std::pow(0.5, 2)));
+}
+
+TEST(RSymbol, AsechScalar) {
+  ad::RSym a{0.5}; // should include multivariate tests
+
+  auto c = asech(a);
+
+  const auto df_c = ad::gradient(c);
+
+  EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::acosh(0.5));
+  EXPECT_DOUBLE_EQ(df_c.at(a), -1.0 / (0.5 * std::sqrt(1 - std::pow(0.5, 2))));
+}
+
+TEST(RSymbol, AcschScalar) {
+  ad::RSym a{0.5}; // should include multivariate tests
+
+  auto c = acsch(a);
+
+  const auto df_c = ad::gradient(c);
+
+  EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::asinh(0.5));
+  EXPECT_DOUBLE_EQ(df_c.at(a), -1.0 / (0.5 * std::sqrt(1 + std::pow(0.5, 2))));
+}
