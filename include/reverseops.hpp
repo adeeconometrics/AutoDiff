@@ -134,12 +134,12 @@ constexpr auto sech(const RSym<T> &rhs) noexcept -> RSym<T> {
   return {{{rhs, df_rhs}}, value};
 }
 
-// template <typename T,
-//           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
-// constexpr auto csch(const RSym<T> &rhs) noexcept -> RSym<T> {
-//   const T value = 1.0 / std::sinh(rhs.value());
-//   const T df_rhs = value * (-1.0 / std::tanh(rhs.value()));
-//   return {{{rhs, df_rhs}}, value};
-// }
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto csch(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = 1.0 / std::sinh(rhs.value());
+  const T df_rhs = value * (-1.0 / std::tanh(rhs.value()));
+  return {{{rhs, df_rhs}}, value};
+}
 
 #endif // __REVERSEOPS_H__
