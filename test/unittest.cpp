@@ -396,3 +396,14 @@ TEST(RSymbol, TanhScalar) {
   EXPECT_DOUBLE_EQ(c.value(), std::tanh(M_PI / 4));
   EXPECT_DOUBLE_EQ(df_c.at(a), 1.0 / std::pow(std::cosh(M_PI / 4), 2));
 }
+
+TEST(RSymbol, CothScalar) {
+  ad::RSym a{M_PI / 4}; // should include multivariate tests
+
+  auto c = coth(a);
+
+  const auto df_c = ad::gradient(c);
+
+  EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::tanh(M_PI / 4));
+  EXPECT_DOUBLE_EQ(df_c.at(a), -1.0 / std::pow(std::sinh(M_PI / 4), 2));
+}
