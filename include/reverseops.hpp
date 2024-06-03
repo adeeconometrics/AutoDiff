@@ -110,13 +110,13 @@ constexpr auto cosh(const RSym<T> &rhs) noexcept -> RSym<T> {
   return {{{rhs, df_rhs}}, value};
 }
 
-// template <typename T,
-//           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
-// constexpr auto tanh(const RSym<T> &rhs) noexcept -> RSym<T> {
-//   const T value = std::tanh(rhs.value());
-//   const T df_rhs = 1.0 / std::pow(std::cosh(rhs.value()), 2); // cont ..
-//   return {{{rhs, df_rhs}}, value};
-// }
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto tanh(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = std::tanh(rhs.value());
+  const T df_rhs = 1.0 / std::pow(std::cosh(rhs.value()), 2); // cont ..
+  return {{{rhs, df_rhs}}, value};
+}
 
 // template <typename T,
 //           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
