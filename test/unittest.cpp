@@ -363,3 +363,14 @@ TEST(RSymbol, CscScalar) {
   EXPECT_DOUBLE_EQ(df_c.at(a),
                    -std::cos(M_PI / 4) / std::pow(std::sin(M_PI / 4), 2));
 }
+
+TEST(RSymbol, SinhScalar) {
+  ad::RSym a{M_PI / 4}; // should include multivariate tests
+
+  auto c = sinh(a);
+
+  const auto df_c = ad::gradient(c);
+
+  EXPECT_DOUBLE_EQ(c.value(), std::sinh(M_PI / 4));
+  EXPECT_DOUBLE_EQ(df_c.at(a), std::cosh(M_PI / 4));
+}
