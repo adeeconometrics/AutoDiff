@@ -2,6 +2,7 @@
 
 #include "../include/forwardops.hpp"
 #include "../include/fsymbol.hpp"
+#include "../include/reverseops.hpp"
 #include "../include/rsymbol.hpp"
 
 #include <cmath>
@@ -182,4 +183,40 @@ TEST(RSymbol, DivScalar) {
   EXPECT_DOUBLE_EQ(c.value(), 2.2);
   EXPECT_DOUBLE_EQ(df_c.at(a), 1 / 0.5);
   EXPECT_DOUBLE_EQ(df_c.at(b), -1.1 / 0.5 / 0.5);
+}
+
+TEST(RSymbol, PowScalar) {
+  ad::RSym a{2.0};
+  ad::RSym b{3.0};
+
+  auto ca = pow(a, 3.);
+  auto cb = pow(b, 4.);
+
+  const auto df_ca = ad::gradient(ca);
+  const auto df_cb = ad::gradient(cb);
+
+  EXPECT_DOUBLE_EQ(ca.value(), 8.0);
+  EXPECT_DOUBLE_EQ(cb.value(), std::pow(3, 4));
+  EXPECT_DOUBLE_EQ(df_ca.at(a), 3 * std::pow(2, 3 - 1));
+  EXPECT_DOUBLE_EQ(df_cb.at(b), 4 * std::pow(3, 4 - 1));
+}
+
+TEST(RSymbol, PowSymbol) {
+  ad::RSym a{2.0};
+  ad::RSym b{3.0};
+
+  auto ca = pow(a, b);
+  auto cb = pow(b, a);
+
+  const auto df_ca = ad::gradient(ca);
+  const auto df_cb = ad::gradient(cb);
+
+  EXPECT_DOUBLE_EQ(ca.value(), std::pow(2, 3));
+  EXPECT_DOUBLE_EQ(cb.value(), std::pow(3, 2));
+
+  EXPECT_DOUBLE_EQ(df_ca.at(a), 3 * std::pow(2, 3 - 1));
+  EXPECT_DOUBLE_EQ(df_ca.at(b), std::pow(2, 3) * std::log(2));
+
+  EXPECT_DOUBLE_EQ(df_cb.at(a), std::pow(3, 2) * std::log(3));
+  EXPECT_DOUBLE_EQ(df_cb.at(b), 2 * std::pow(3, 2 - 1));
 }
