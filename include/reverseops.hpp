@@ -37,13 +37,13 @@ constexpr auto exp(const RSym<T> &rhs) noexcept -> RSym<T> {
   return {{{rhs, df_rhs}}, value};
 }
 
-// template <typename T,
-//           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
-// constexpr auto ln(const RSym<T> &rhs) noexcept -> RSym<T> {
-//   const T value = std::log(rhs.value());
-//   const T df_rhs = 1.0 / rhs.value();
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto ln(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = std::log(rhs.value());
+  const T df_rhs = 1.0 / rhs.value();
 
-//   return {{{rhs, df_rhs}}, value};
-// }
+  return {{{rhs, df_rhs}}, value};
+}
 
 #endif // __REVERSEOPS_H__
