@@ -70,21 +70,21 @@ constexpr auto tan(const RSym<T> &rhs) noexcept -> RSym<T> {
   return {{{rhs, df_rhs}}, value};
 }
 
-// template <typename T,
-//           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
-// constexpr auto cot(const RSym<T> &rhs) noexcept -> RSym<T> {
-//   const T value = 1.0 / std::tan(rhs.value());
-//   const T df_rhs = -1.0 / std::pow(std::sin(rhs.value()), 2);
-//   return {{{rhs, df_rhs}}, value};
-// }
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto cot(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = 1.0 / std::tan(rhs.value());
+  const T df_rhs = -1.0 / std::pow(std::sin(rhs.value()), 2);
+  return {{{rhs, df_rhs}}, value};
+}
 
-// template <typename T,
-//           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
-// constexpr auto sec(const RSym<T> &rhs) noexcept -> RSym<T> {
-//   const T value = 1.0 / std::cos(rhs.value());
-//   const T df_rhs = value * std::tan(rhs.value());
-//   return {{{rhs, df_rhs}}, value};
-// }
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto sec(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = 1.0 / std::cos(rhs.value());
+  const T df_rhs = value * std::tan(rhs.value());
+  return {{{rhs, df_rhs}}, value};
+}
 
 // template <typename T,
 //           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
