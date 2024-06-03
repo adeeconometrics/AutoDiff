@@ -28,14 +28,14 @@ constexpr auto pow(const RSym<T> &base, T exponent) -> RSym<T> {
   return {{{base, df_base}}, std::pow(base.value(), exponent)};
 }
 
-// template <typename T,
-//           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
-// constexpr auto exp(const RSym<T> &rhs) noexcept -> RSym<T> {
-//   const T value = std::exp(rhs.value());
-//   const T df_rhs = value;
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto exp(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = std::exp(rhs.value());
+  const T df_rhs = value;
 
-//   return {{{rhs, df_rhs}}, value};
-// }
+  return {{{rhs, df_rhs}}, value};
+}
 
 // template <typename T,
 //           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
