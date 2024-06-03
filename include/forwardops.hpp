@@ -127,12 +127,12 @@ constexpr auto sech(const FSym<T> &rhs) noexcept -> FSym<T> {
   return {value, df};
 }
 
-// template <typename T,
-//           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
-// constexpr auto csch(const FSym<T> &rhs) noexcept -> FSym<T> {
-//   const T value = 1.0f / std::sinh(rhs.value());
-//   const T df = -value * (1.0f / std::tanh(rhs.value())) * rhs.dot();
-//   return {value, df};
-// }
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto csch(const FSym<T> &rhs) noexcept -> FSym<T> {
+  const T value = 1.0f / std::sinh(rhs.value());
+  const T df = -value * (1.0f / std::tanh(rhs.value())) * rhs.dot();
+  return {value, df};
+}
 
 #endif // __FORWARDOPS_H__
