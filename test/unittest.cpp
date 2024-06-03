@@ -463,3 +463,14 @@ TEST(RSymbol, AtanScalar) {
   EXPECT_DOUBLE_EQ(c.value(), std::atan(0.5));
   EXPECT_DOUBLE_EQ(df_c.at(a), 1.0 / (1 + std::pow(0.5, 2)));
 }
+
+TEST(RSymbol, AcotScalar) {
+  ad::RSym a{0.5}; // should include multivariate tests
+
+  auto c = acot(a);
+
+  const auto df_c = ad::gradient(c);
+
+  EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::atan(0.5));
+  EXPECT_DOUBLE_EQ(df_c.at(a), -1.0 / (1 + std::pow(.5, 2)));
+}
