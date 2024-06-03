@@ -158,13 +158,13 @@ constexpr auto acos(const RSym<T> &rhs) noexcept -> RSym<T> {
   return {{{rhs, df_rhs}}, value};
 }
 
-// template <typename T,
-//           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
-// constexpr auto atan(const RSym<T> &rhs) noexcept -> RSym<T> {
-//   const T value = std::atan(rhs.value());
-//   const T df_rhs = 1.0 / (1 + std::pow(rhs.value(), 2));
-//   return {{{rhs, df_rhs}}, value};
-// }
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto atan(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = std::atan(rhs.value());
+  const T df_rhs = 1.0 / (1 + std::pow(rhs.value(), 2));
+  return {{{rhs, df_rhs}}, value};
+}
 
 // template <typename T,
 //           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
