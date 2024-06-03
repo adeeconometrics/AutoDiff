@@ -103,13 +103,13 @@ constexpr auto cosh(const FSym<T> &rhs) noexcept -> FSym<T> {
   return {value, df};
 }
 
-// template <typename T,
-//           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
-// constexpr auto tanh(const FSym<T> &rhs) noexcept -> FSym<T> {
-//   const T value = std::tanh(rhs.value());
-//   const T df = std::pow(1.0f / std::cosh(rhs.value()), 2) * rhs.dot();
-//   return {value, df};
-// }
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto tanh(const FSym<T> &rhs) noexcept -> FSym<T> {
+  const T value = std::tanh(rhs.value());
+  const T df = std::pow(1.0f / std::cosh(rhs.value()), 2) * rhs.dot();
+  return {value, df};
+}
 
 // template <typename T,
 //           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
