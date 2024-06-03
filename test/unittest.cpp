@@ -441,3 +441,14 @@ TEST(RSymbol, AsinScalar) {
   EXPECT_DOUBLE_EQ(c.value(), std::asin(0.5));
   EXPECT_DOUBLE_EQ(df_c.at(a), 1.0 / std::sqrt(1 - std::pow(0.5, 2)));
 }
+
+TEST(RSymbol, AcosScalar) {
+  ad::RSym a{0.5}; // should include multivariate tests
+
+  auto c = acos(a);
+
+  const auto df_c = ad::gradient(c);
+
+  EXPECT_DOUBLE_EQ(c.value(), std::acos(0.5));
+  EXPECT_DOUBLE_EQ(df_c.at(a), -1.0 / std::sqrt(1 - std::pow(0.5, 2)));
+}
