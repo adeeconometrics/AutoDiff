@@ -102,13 +102,13 @@ constexpr auto sinh(const RSym<T> &rhs) noexcept -> RSym<T> {
   return {{{rhs, df_rhs}}, value};
 }
 
-// template <typename T,
-//           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
-// constexpr auto cosh(const RSym<T> &rhs) noexcept -> RSym<T> {
-//   const T value = std::cosh(rhs.value());
-//   const T df_rhs = std::sinh(rhs.value());
-//   return {{{rhs, df_rhs}}, value};
-// }
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto cosh(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = std::cosh(rhs.value());
+  const T df_rhs = std::sinh(rhs.value());
+  return {{{rhs, df_rhs}}, value};
+}
 
 // template <typename T,
 //           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
