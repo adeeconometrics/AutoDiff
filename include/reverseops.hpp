@@ -54,13 +54,13 @@ constexpr auto sin(const RSym<T> &rhs) noexcept -> RSym<T> {
   return {{{rhs, df_rhs}}, value};
 }
 
-// template <typename T,
-//           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
-// constexpr auto cos(const RSym<T> &rhs) noexcept -> RSym<T> {
-//   const T value = std::cos(rhs.value());
-//   const T df_rhs = -std::sin(rhs.value());
-//   return {{{rhs, df_rhs}}, value};
-// }
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto cos(const RSym<T> &rhs) noexcept -> RSym<T> {
+  const T value = std::cos(rhs.value());
+  const T df_rhs = -std::sin(rhs.value());
+  return {{{rhs, df_rhs}}, value};
+}
 
 // template <typename T,
 //           typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
