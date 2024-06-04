@@ -1,6 +1,7 @@
 #ifndef __RSYMBOL_H__
 #define __RSYMBOL_H__
 
+#include <functional>
 #include <map>
 #include <type_traits>
 
