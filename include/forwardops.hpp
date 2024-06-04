@@ -188,4 +188,12 @@ constexpr auto acot(const FSym<T> &rhs) noexcept -> FSym<T> {
   return {value, df};
 }
 
+template <typename T,
+          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
+constexpr auto asinh(const FSym<T> &rhs) noexcept -> FSym<T> {
+  const T value = std::asinh(rhs.value());
+  const T df = 1.0f / std::sqrt(std::pow(rhs.value(), 2) + 1.0f) * rhs.dot();
+  return {value, df};
+}
+
 #endif // __FORWARDOPS_H__
