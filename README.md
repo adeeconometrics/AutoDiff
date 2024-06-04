@@ -43,3 +43,12 @@ Note that this project is configured on cpp20 compiler.
 | acoth      | <ul><li>- [x] </li></ul> | <ul><li>- [x] </li></ul> | <ul><li>- [x] </li></ul> | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
 | asech      | <ul><li>- [x] </li></ul> | <ul><li>- [x] </li></ul> | <ul><li>- [x] </li></ul> | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
 | acsch      | <ul><li>- [x] </li></ul> | <ul><li>- [x] </li></ul> | <ul><li>- [x] </li></ul> | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
+
+## Features to support in the future:
+
+- [ ] Higher order partial differentiation
+- [ ] Total derivative
+- [ ] Directional derivative
+- [ ] Jacobian Matrix
+- [ ] Gradient vector
+- [ ] Hessian Matrix
