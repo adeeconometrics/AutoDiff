@@ -217,6 +217,35 @@ TEST(FSymbol, AtanScalar) {
   EXPECT_DOUBLE_EQ(c.value(), std::atan(0.5));
   EXPECT_DOUBLE_EQ(c.dot(), 1.0 / (1 + std::pow(0.5, 2)));
 }
+// WARNING: Arcos is only defined in [-1,1]. Handle domain error.
+TEST(FSymbol, AsecScalar) {
+  ad::FSym<double> a{1, 1.0}; // should include multivariate tests
+
+  auto c = asec(a);
+
+  EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::acos(1));
+  EXPECT_DOUBLE_EQ(c.dot(),
+                   1.0 / (std::abs(1) * std::sqrt(std::pow(1, 2) - 1)));
+}
+
+TEST(FSymbol, AcscScalar) {
+  ad::FSym<double> a{1, 1.0}; // should include multivariate tests
+
+  auto c = acsc(a);
+
+  EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::asin(1));
+  EXPECT_DOUBLE_EQ(c.dot(),
+                   -1.0 / (std::sqrt(1 - std::pow(1, 2)) * std::abs(1)));
+}
+
+TEST(FSymbol, AcotScalar) {
+  ad::FSym<double> a{0.5, 1.0}; // should include multivariate tests
+
+  auto c = acot(a);
+
+  EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::atan(0.5));
+  EXPECT_DOUBLE_EQ(c.dot(), -1.0 / (1 + std::pow(.5, 2)));
+}
 
 TEST(RSymbol, AddScalar) {
   ad::RSym a{1.1};
