@@ -1,19 +1,30 @@
-#include "../include/Symbol.hpp"
+#include "../include/fsymbol.hpp"
+#include "../include/rsymbol.hpp"
 
 #include <iostream>
 
 using namespace ad;
+using std::cout;
 
-auto test_vector_functions() -> void;
-auto test_scalar_functions() -> void;
+// auto tf(double x, double y) -> FSym {
+//   FSym a {}
+// }
 
-auto test_vector_fsym() -> void;
-auto test_scalar_fsym() -> void;
+auto main() -> int {
 
-auto test_vector_rsym() -> void;
-auto test_scalar_rsym() -> void;
+  RSym a{1.1};
+  RSym b{0.5};
 
-auto main(void) -> int {
-  Symbol a{-4.0f}, b{2.0f};
-  Symbol c = a + b;
+  FSym fa{1.1};
+  FSym fb{0.5};
+
+  const auto f = fb * fa + fa * fb;
+
+  auto expr = a / b + b * a;
+  auto df_expr = gradient(expr);
+
+  cout << df_expr[a] << '\n' << df_expr[b] << "\n\n";
+  cout << f.dot();
+
+  return 0;
 }
