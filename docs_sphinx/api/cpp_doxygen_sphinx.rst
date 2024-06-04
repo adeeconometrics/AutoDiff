@@ -12,7 +12,7 @@ ForwardOps API
 
 RSymbol API
 ==============
-.. doxygenfile:: RSymbol.hpp
+.. doxygenfile:: rsymbol.hpp
   :project: C++ Sphinx Doxygen Breathe
 
 ReverseOps API
