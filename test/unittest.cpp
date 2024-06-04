@@ -274,6 +274,24 @@ TEST(FSymbol, AtanhScalar) {
   EXPECT_DOUBLE_EQ(c.dot(), 1.0 / (1 - std::pow(0.5, 2)));
 }
 
+TEST(FSymbol, AcothScalar) {
+  ad::FSym<double> a{0.5, 1.0}; // should include multivariate tests
+
+  auto c = acoth(a);
+
+  EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::atanh(0.5));
+  EXPECT_DOUBLE_EQ(c.dot(), 1.0 / (1 - std::pow(0.5, 2)));
+}
+// WARNING: Domain error should be handled in the future
+TEST(FSymbol, AsechScalar) {
+  ad::FSym<double> a{1., 1.0}; // should include multivariate tests
+
+  auto c = asech(a);
+
+  EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::acosh(1.));
+  EXPECT_DOUBLE_EQ(c.dot(), -1.0 / (1. * std::sqrt(1 - std::pow(1., 2))));
+}
+
 TEST(RSymbol, AddScalar) {
   ad::RSym a{1.1};
   ad::RSym b{0.5};
