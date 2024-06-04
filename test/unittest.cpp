@@ -209,6 +209,15 @@ TEST(FSymbol, AcosScalar) {
   EXPECT_DOUBLE_EQ(c.dot(), -1.0 / std::sqrt(1 - std::pow(0.5, 2)));
 }
 
+TEST(FSymbol, AtanScalar) {
+  ad::FSym<double> a{0.5, 1.0}; // should include multivariate tests
+
+  auto c = atan(a);
+
+  EXPECT_DOUBLE_EQ(c.value(), std::atan(0.5));
+  EXPECT_DOUBLE_EQ(c.dot(), 1.0 / (1 + std::pow(0.5, 2)));
+}
+
 TEST(RSymbol, AddScalar) {
   ad::RSym a{1.1};
   ad::RSym b{0.5};
