@@ -26,5 +26,9 @@ auto main() -> int {
   cout << df_expr[a] << '\n' << df_expr[b] << "\n\n";
   cout << f.dot();
 
+#ifdef DEBUG
+  cout << "DEBUG\n";
+#endif
+
   return 0;
 }

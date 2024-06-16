@@ -16,11 +16,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # Set compiler flags for debug and release versions. NOTE DEBUG SHOULD BE -O0
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND ${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm64")
     # Set compiler flags for macOS
-    set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -pedantic -Xclang")
+    set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -pedantic -Xclang -DDEBUG")
     set(CMAKE_CXX_FLAGS_RELEASE " -O3 -Wall -Wextra -pedantic -Xclang")
 else()
     # Set compiler flags for other systems
-    set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -pedantic")
+    set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -pedantic -DDEBUG")
     set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -Wextra -pedantic -ffast-math -march=native -ftree-vectorize")
 endif()
 
