@@ -15,9 +15,9 @@ Note that this project is configured on cpp17 compiler.
 
 | **Types**  | **Scalar**                                 | **Vector**                                          | **Matrix**                                 |
 | ---------- | ------------------------------------------ | --------------------------------------------------- | ------------------------------------------ |
-| **Scalar** | \(\frac{\partial y}{\partial x}\)          | \(\frac{\partial \mathbf{y}}{\partial x}\)          | \(\frac{\partial \mathbf{Y}}{\partial x}\) |
-| **Vector** | \(\frac{\partial y}{\partial \mathbf{x}}\) | \(\frac{\partial \mathbf{y}}{\partial \mathbf{x}}\) | -                                          |
-| **Matrix** | \(\frac{\partial y}{\partial \mathbf{X}}\) | -                                                   | -                                          |
+| **Scalar** | $$\frac{\partial y}{\partial x}$$          | $$\frac{\partial \mathbf{y}}{\partial x}$$          | $$\frac{\partial \mathbf{Y}}{\partial x}$$ |
+| **Vector** | $$\frac{\partial y}{\partial \mathbf{x}}$$ | $$\frac{\partial \mathbf{y}}{\partial \mathbf{x}}$$ | -                                          |
+| **Matrix** | $$\frac{\partial y}{\partial \mathbf{X}}$$ | -                                                   | -                                          |
 
 ## Test Coverage
 
