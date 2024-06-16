@@ -9,7 +9,15 @@ from scratch. The intention of this repo is to serve as an avenue to explore
 the foundations of Neural Networks. This repo contains reverse and forward
 mode differentiation.
 
-Note that this project is configured on cpp20 compiler.
+Note that this project is configured on cpp17 compiler.
+
+** Table of Derivatives**
+
+| **Types**  | **Scalar**                                 | **Vector**                                          | **Matrix**                                 |
+| ---------- | ------------------------------------------ | --------------------------------------------------- | ------------------------------------------ |
+| **Scalar** | \(\frac{\partial y}{\partial x}\)          | \(\frac{\partial \mathbf{y}}{\partial x}\)          | \(\frac{\partial \mathbf{Y}}{\partial x}\) |
+| **Vector** | \(\frac{\partial y}{\partial \mathbf{x}}\) | \(\frac{\partial \mathbf{y}}{\partial \mathbf{x}}\) | -                                          |
+| **Matrix** | \(\frac{\partial y}{\partial \mathbf{X}}\) | -                                                   | -                                          |
 
 ## Test Coverage
 
