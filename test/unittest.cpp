@@ -676,3 +676,18 @@ TEST(RSymbol, AcschScalar) {
   EXPECT_DOUBLE_EQ(c.value(), 1.0 / std::asinh(0.5));
   EXPECT_DOUBLE_EQ(df_c.at(a), -1.0 / (0.5 * std::sqrt(1 + std::pow(0.5, 2))));
 }
+
+#include "../include/matops.hpp"
+#include "../include/matrix.hpp"
+
+TEST(Matrix, Eval) {
+  using namespace ad;
+  const Matrix<double, 2, 2> A = {{1, 2}, {3, 4}};
+  const Matrix<double, 2, 2> B = {{1, 2}, {3, 4}};
+  const Matrix<double, 2, 2> AddResult = {{2, 4}, {6, 8}};
+
+  auto C = A + B;
+  const auto Result = eval(C);
+
+  EXPECT_EQ(Result, AddResult);
+}

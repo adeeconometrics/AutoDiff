@@ -10,8 +10,8 @@ namespace ad {
 
 template <typename T, std::size_t Rows, std::size_t Cols> class Matrix {
 public:
-  using iterator = std::vector<T>::iterator;
-  using const_iterator = std::vector<T>::const_iterator;
+  using iterator = typename std::vector<T>::iterator;
+  using const_iterator = typename std::vector<T>::const_iterator;
 
 public:
   Matrix() { m_data.reserve(Rows * Cols); }
@@ -48,7 +48,42 @@ public:
   }
 
   auto operator()(std::size_t t_row, std::size_t t_col) const -> const T & {
+#ifndef DEBUG
+    assert(t_row < Rows && t_col < Cols);
+#endif
     return m_data[t_row * Cols + t_col];
+  }
+
+  constexpr auto rows() const noexcept -> std::size_t { return Rows; }
+  constexpr auto cols() const noexcept -> std::size_t { return Cols; }
+
+  constexpr auto begin() noexcept -> iterator { return m_data.begin(); }
+  constexpr auto end() noexcept -> iterator { return m_data.end(); }
+  constexpr auto cbegin() const noexcept -> const_iterator {
+    return m_data.cbegin();
+  }
+  constexpr auto cend() const noexcept -> const_iterator {
+    return m_data.cend();
+  }
+
+  template <typename Expr>
+  friend constexpr auto eval(const Expr &t_expr) -> Matrix<T, Rows, Cols> {
+    Matrix<T, Rows, Cols> result{};
+    for (std::size_t i = 0; i < Rows; ++i) {
+#ifdef __clang__
+#pragma clang loop vectorize(enable)
+#endif
+      for (std::size_t j = 0; j < Cols; ++j) {
+        result(i, j) = t_expr(i, j);
+      }
+    }
+    return result;
+  }
+
+  template <typename Expr>
+  friend constexpr auto eval_at(const Expr &t_expr, std::size_t i,
+                                std::size_t j) -> T {
+    return t_expr(i, j);
   }
 
 private:
