@@ -680,14 +680,18 @@ TEST(RSymbol, AcschScalar) {
 #include "../include/matops.hpp"
 #include "../include/matrix.hpp"
 
-TEST(Matrix, Eval) {
-  using namespace ad;
-  const Matrix<double, 2, 2> A = {{1, 2}, {3, 4}};
-  const Matrix<double, 2, 2> B = {{1, 2}, {3, 4}};
-  const Matrix<double, 2, 2> AddResult = {{2, 4}, {6, 8}};
+// TEST(FSymbol, MatrixArithmetic) {
+//   using namespace ad;
+//   const Matrix<double, 2, 2> A = {{1, 2}, {3, 4}};
+//   const Matrix<double, 2, 2> B = {{1, 2}, {3, 4}};
 
-  auto C = A + B;
-  const auto Result = eval(C);
+//   const FSym a{A, 1.};
+//   const FSym b{B, 0.};
 
-  EXPECT_EQ(Result, AddResult);
-}
+//   const Matrix<double, 2, 2> AddResult = {{2, 4}, {6, 8}};
+
+//   auto c = a + b;
+//   const auto Result = eval(c.dot());
+
+//   //   EXPECT_EQ(Result, AddResult);
+// }

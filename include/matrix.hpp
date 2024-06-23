@@ -89,6 +89,36 @@ public:
 private:
   std::vector<T> m_data;
 };
+/**
+ * @brief eval overload for matrix expressionn in case of just matrix
+ *
+ * @tparam T
+ * @tparam Rows
+ * @tparam Cols
+ * @param t_expr
+ * @return Matrix<T, Rows, Cols>
+ */
+template <typename T, std::size_t Rows, std::size_t Cols>
+constexpr auto
+eval(const Matrix<T, Rows, Cols> &t_expr) -> Matrix<T, Rows, Cols> {
+  return t_expr;
+}
+/**
+ * @brief eval overload for matrix expression in case of just matrix
+ *
+ * @tparam T
+ * @tparam Rows
+ * @tparam Cols
+ * @param t_expr
+ * @param i
+ * @param j
+ * @return T
+ */
+template <typename T, std::size_t Rows, std::size_t Cols>
+constexpr auto eval_at(const Matrix<T, Rows, Cols> &t_expr, std::size_t i,
+                       std::size_t j) -> T {
+  return t_expr(i, j);
+}
 
 } // namespace ad
 
