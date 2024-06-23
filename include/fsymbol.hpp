@@ -10,6 +10,18 @@
 
 namespace ad {
 
+template <typename Expr> struct FExpr {
+public:
+  FExpr(const Expr &t_expr) : m_content(t_expr) {}
+
+  auto value() const noexcept -> Expr { return m_content; }
+
+private:
+  Expr m_content;
+};
+
+template <typename...> struct FSym;
+
 /**
  * @brief Represents the forward mode operator for autodifferentiation. Note to
  * find partial derivative of a multivariable function, we need to seed the
@@ -19,9 +31,7 @@ namespace ad {
  * @tparam T
  * @tparam std::enable_if_t<std::is_floating_point_v<T>>
  */
-template <typename T,
-          typename = typename std::enable_if_t<std::is_floating_point_v<T>>>
-struct FSym {
+template <typename T> struct FSym<T> {
 public:
   FSym(T t_value, T t_dot) : m_value(t_value), m_dot(t_dot) {}
   FSym(T t_value) : m_value(t_value), m_dot(T{}) {}
@@ -34,48 +44,22 @@ private:
   T m_dot;
 };
 
-template <typename T, std::size_t Rows, std::size_t Cols>
-struct FSym<Matrix<T, Rows, Cols>> {
+template <typename LhsExpr, typename RhsExpr> struct FSym<LhsExpr, RhsExpr> {
 public:
-  FSym(const Matrix<T, Rows, Cols> &t_value, const Matrix<T, Rows, Cols> &t_dot)
-      : m_value(t_value), m_dot(t_dot) {}
-
+  template <typename T, std::size_t Rows, std::size_t Cols>
   FSym(const Matrix<T, Rows, Cols> &t_value, T t_dot)
-      : m_value(t_value),
-        m_dot(Matrix<T, Rows, Cols>{std::vector<T>(Rows * Cols, t_dot)}) {}
+      : m_value(FExpr<Matrix<T, Rows, Cols>>(t_value)),
+        m_dot(FExpr<decltype(t_value * t_dot)>(t_value * t_dot)) {}
 
-  auto value() const noexcept -> Matrix<T, Rows, Cols> { return m_value; }
-  auto dot() const noexcept -> Matrix<T, Rows, Cols> { return m_dot; }
+  FSym(LhsExpr t_value, LhsExpr t_dot)
+      : m_value(FExpr<LhsExpr>(t_value)), m_dot(FExpr<LhsExpr>(t_dot)) {}
 
-private:
-  Matrix<T, Rows, Cols> m_value;
-  Matrix<T, Rows, Cols> m_dot;
-};
-
-template <typename Expr> struct FExpr {
-
-  FExpr(const Expr &t_content) : content(t_content) {}
-
-  auto value() const noexcept -> Expr { return content; }
+  auto value() const noexcept -> decltype(auto) { return m_value.value(); }
+  auto dot() const noexcept -> decltype(auto) { return m_dot.value(); }
 
 private:
-  Expr content;
-};
-
-template <typename Expr> struct FSym<FExpr<Expr>> {
-public:
-  FSym(const FSym<Expr> &t_value, const FSym<Expr> &t_dot)
-      : m_value(t_value), m_dot(t_dot) {}
-
-  FSym(const FSym<Expr> &t_value, Expr t_dot)
-      : m_value(t_value), m_dot(FExpr<Expr>{t_dot}) {}
-
-  auto value() const noexcept -> FSym<Expr> { return m_value; }
-  auto dot() const noexcept -> FSym<Expr> { return m_dot; }
-
-private:
-  Expr m_value;
-  Expr m_dot;
+  FExpr<LhsExpr> m_value;
+  FExpr<RhsExpr> m_dot;
 };
 
 template <typename T>
