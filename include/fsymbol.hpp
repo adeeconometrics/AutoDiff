@@ -34,16 +34,6 @@ private:
   T m_dot;
 };
 
-template <typename Expr> struct FExpr {
-
-  FExpr(const Expr &t_content) : content(t_content) {}
-
-  auto value() const noexcept -> Expr { return content; }
-
-private:
-  Expr content;
-};
-
 template <typename T, std::size_t Rows, std::size_t Cols>
 struct FSym<Matrix<T, Rows, Cols>> {
 public:
@@ -62,21 +52,31 @@ private:
   Matrix<T, Rows, Cols> m_dot;
 };
 
-// template <typename Expr> struct FSym<Expr> {
-// public:
-//   FSym(const FSym<Expr> &t_value, const FSym<Expr> &t_dot)
-//       : m_value(t_value), m_dot(t_dot) {}
+template <typename Expr> struct FExpr {
 
-//   FSym(const FSym<Expr> &t_value, Expr t_dot)
-//       : m_value(t_value), m_dot(FExpr<Expr>{t_dot}) {}
+  FExpr(const Expr &t_content) : content(t_content) {}
 
-//   auto value() const noexcept -> FSym<Expr> { return m_value; }
-//   auto dot() const noexcept -> FSym<Expr> { return m_dot; }
+  auto value() const noexcept -> Expr { return content; }
 
-// private:
-//   Expr m_value;
-//   Expr m_dot;
-// };
+private:
+  Expr content;
+};
+
+template <typename Expr> struct FSym<FExpr<Expr>> {
+public:
+  FSym(const FSym<Expr> &t_value, const FSym<Expr> &t_dot)
+      : m_value(t_value), m_dot(t_dot) {}
+
+  FSym(const FSym<Expr> &t_value, Expr t_dot)
+      : m_value(t_value), m_dot(FExpr<Expr>{t_dot}) {}
+
+  auto value() const noexcept -> FSym<Expr> { return m_value; }
+  auto dot() const noexcept -> FSym<Expr> { return m_dot; }
+
+private:
+  Expr m_value;
+  Expr m_dot;
+};
 
 template <typename T>
 auto operator+(const FSym<T> &lhs, const FSym<T> &rhs) -> FSym<T> {
