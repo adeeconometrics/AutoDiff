@@ -685,13 +685,13 @@ TEST(FSymbol, MatrixArithmetic) {
   const Matrix<double, 2, 2> A = {{1, 2}, {3, 4}};
   const Matrix<double, 2, 2> B = {{1, 2}, {3, 4}};
 
-  const FSym a{A, 1.};
-  const FSym b{B, 0.};
+  const FSym<Matrix<double, 2, 2>> a{A, 1.};
+  const FSym<Matrix<double, 2, 2>> b{B, 0.};
 
   const Matrix<double, 2, 2> AddResult = {{2, 4}, {6, 8}};
 
   auto c = a + b;
   const auto Result = eval(c.dot());
 
-  //   EXPECT_EQ(Result, AddResult);
+  EXPECT_EQ(Result, AddResult);
 }

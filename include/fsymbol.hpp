@@ -2,6 +2,7 @@
 #define __FSYMBOL_H__
 
 #include "../include/matexpr.hpp"
+#include "../include/matops.hpp"
 #include "../include/matrix.hpp"
 
 #include <cmath>
@@ -44,15 +45,26 @@ private:
   T m_dot;
 };
 
+template <typename T, std::size_t Rows, std::size_t Cols>
+struct FSym<Matrix<T, Rows, Cols>> {
+public:
+  FSym(const Matrix<T, Rows, Cols> &t_mat, T t_dot)
+      : m_value(FExpr<Matrix<T, Rows, Cols>>(t_mat)),
+        m_dot(FExpr<decltype(t_mat * t_dot)>(t_mat * t_dot)) {}
+
+  auto value() const noexcept -> decltype(auto) { return m_value.value(); }
+  auto dot() const noexcept -> decltype(auto) { return m_dot.value(); }
+
+private:
+  FExpr<Matrix<T, Rows, Cols>> m_value;
+  FExpr<decltype(std::declval<Matrix<T, Rows, Cols>>() * std::declval<T>())>
+      m_dot;
+};
+
 template <typename LhsExpr, typename RhsExpr> struct FSym<LhsExpr, RhsExpr> {
 public:
-  template <typename T, std::size_t Rows, std::size_t Cols>
-  FSym(const Matrix<T, Rows, Cols> &t_value, T t_dot)
-      : m_value(FExpr<Matrix<T, Rows, Cols>>(t_value)),
-        m_dot(FExpr<decltype(t_value * t_dot)>(t_value * t_dot)) {}
-
-  FSym(LhsExpr t_value, LhsExpr t_dot)
-      : m_value(FExpr<LhsExpr>(t_value)), m_dot(FExpr<LhsExpr>(t_dot)) {}
+  FSym(LhsExpr t_value, RhsExpr t_dot)
+      : m_value(FExpr<LhsExpr>(t_value)), m_dot(FExpr<RhsExpr>(t_dot)) {}
 
   auto value() const noexcept -> decltype(auto) { return m_value.value(); }
   auto dot() const noexcept -> decltype(auto) { return m_dot.value(); }
@@ -62,10 +74,21 @@ private:
   FExpr<RhsExpr> m_dot;
 };
 
-template <typename T>
-auto operator+(const FSym<T> &lhs, const FSym<T> &rhs) -> FSym<T> {
-  return {lhs.value() + rhs.value(), lhs.dot() + rhs.dot()};
+template <typename T> auto operator+(const FSym<T> &lhs, const FSym<T> &rhs) {
+  const auto value = lhs.value() + rhs.value();
+  const auto dot = lhs.dot() + rhs.dot();
+  return FSym<decltype(value), decltype(dot)>{lhs.value() + rhs.value(),
+                                              lhs.dot() + rhs.dot()};
 }
+
+// template <typename T, std::size_t Rows, std::size_t Cols>
+// auto operator+(const FSym<Matrix<T, Rows, Cols>> &lhs,
+//                const FSym<Matrix<T, Rows, Cols>> &rhs) {
+//   const auto value = lhs.value() + rhs.value();
+//   const auto dot = lhs.dot() + rhs.dot();
+//   return FSym<decltype(value), decltype(dot)>{lhs.value() + rhs.value(),
+//                                               lhs.dot() + rhs.dot()};
+// }
 
 template <typename T>
 auto operator-(const FSym<T> &lhs, const FSym<T> &rhs) -> FSym<T> {
@@ -81,7 +104,7 @@ auto operator*(const FSym<T> &lhs, const FSym<T> &rhs) -> FSym<T> {
 template <typename T>
 auto operator/(const FSym<T> &lhs, const FSym<T> &rhs) -> FSym<T> {
   const T df = {(rhs.value() * lhs.dot() - lhs.value() * rhs.dot()) /
-                pow(rhs.value(), 2)};
+                std::pow(rhs.value(), 2)};
   return {lhs.value() / rhs.value(), df};
 }
 
